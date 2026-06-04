@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      upload_large_assets:
+        description: "Also upload large video/PDF files (~60 MB)"
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: deploy-volki-frn
@@ -16,7 +22,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy via FTP
+      # Основной деплой: HTML, JS, картинки (без .git и без тяжёлых файлов)
+      - name: Deploy site files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -27,8 +34,12 @@ jobs:
           local-dir: ./
           server-dir: ${{ secrets.FTP_REMOTE_DIR }}
           dangerous-clean-slate: false
+          timeout: 600000
+          log-level: standard
           exclude: |
-            **/.git*
+            .git/
+            .git/**
+            **/.git/**
             **/.github/**
             **/.env
             **/.env.*
@@ -36,3 +47,32 @@ jobs:
             **/UPLOAD-MANIFEST.txt
             **/deploy.sh
             **/.gitignore
+            assets/reviews/partner-review.mp4
+            assets/presentation/franchise.pdf
+            assets/presentation/consulting.pdf
+            assets/hero/hero-loop.mp4
+
+      # Тяжёлые файлы — только вручную (Run workflow → upload_large_assets)
+      - name: Deploy large assets
+        if: github.event_name == 'workflow_dispatch' && inputs.upload_large_assets == true
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 21
+          protocol: ftp
+          local-dir: ./
+          server-dir: ${{ secrets.FTP_REMOTE_DIR }}
+          dangerous-clean-slate: false
+          timeout: 600000
+          log-level: standard
+          include: |
+            assets/reviews/partner-review.mp4
+            assets/presentation/franchise.pdf
+            assets/presentation/consulting.pdf
+            assets/hero/hero-loop.mp4
+          exclude: |
+            .git/
+            .git/**
+            **/.git/**

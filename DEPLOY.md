@@ -81,10 +81,10 @@ git push
 
 ## Если деплой падает
 
+- **ECONNRESET / 239 files** — в старой версии workflow заливалась папка `.git`. Сейчас она исключена; обычный push заливает ~50 файлов (~15 МБ), без тяжёлых видео/PDF.
+- **Тяжёлые файлы** (видеоотзыв, PDF) уже на сервере после FileZilla. Если обновили их — **Actions** → **Deploy to hoster.by** → **Run workflow** → включить **upload_large_assets**.
 - **Login incorrect** — проверьте `FTP_USERNAME` / `FTP_PASSWORD`.
-- **Wrong directory** — в панели hoster.by: корневая папка сайта = `/www/volki-frn.by`; в секрете `FTP_REMOTE_DIR` то же.
-- **Timeout** — повторите push; для видео первый деплой дольше.
-- В FileZilla посмотрите путь, куда реально попадают файлы при подключении — он должен совпадать с `FTP_REMOTE_DIR`.
+- **Wrong directory** — `FTP_REMOTE_DIR` = `/www/volki-frn.by/`
 
 ---
 
