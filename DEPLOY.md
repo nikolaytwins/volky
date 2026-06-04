@@ -1,6 +1,7 @@
 # Автодеплой Volki → volki-frn.by (hoster.by)
 
-Корень сайта на хостинге: **`/www/volki-frn.by/`**
+Корень сайта для nginx: **`/www/volki-frn.by/`** на сервере.  
+Для FTP (chroot): **`www/volki-frn.by/`** — без ведущего `/`, иначе файлы попадут не туда.
 
 После настройки: правки в Cursor → `git push` → сайт обновляется сам (1–5 мин).
 
@@ -36,7 +37,7 @@ git push -u origin main
 | `FTP_SERVER` | `87.232.64.14` (или `ftp.hoster.by` из панели) |
 | `FTP_USERNAME` | `volki-upload` (ваш FTP-логин) |
 | `FTP_PASSWORD` | пароль FTP |
-| `FTP_REMOTE_DIR` | `/www/volki-frn.by/` |
+| `FTP_REMOTE_DIR` | `www/volki-frn.by/` (не `/www/...` и не `httpdocs`) |
 | `FTP_PORT` | `21` (опционально; если не работает — попробуйте `22` и смените protocol в workflow на `ftps`) |
 
 ---
