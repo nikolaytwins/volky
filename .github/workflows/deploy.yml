@@ -38,7 +38,14 @@ jobs:
           REMOTE="${FTP_DIR:-/www/volki-frn.by/}"
           REMOTE="${REMOTE%/}/"
 
-          echo "========== Phase 1: HTML, spasibo, JS =========="
+          if [[ "$REMOTE" != *volki-frn* ]]; then
+            echo "::error::FTP_REMOTE_DIR must be /www/volki-frn.by/ (nginx docroot), not httpdocs. Got: ${REMOTE}"
+            exit 1
+          fi
+
+          echo "Deploy target: ${REMOTE}/"
+
+          echo "========== Phase 1: force HTML + spasibo + JS =========="
           for attempt in 1 2 3; do
             if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP1
           set ftp:passive-mode true
@@ -46,6 +53,7 @@ jobs:
           set net:timeout 120
           set net:max-retries 5
           set cmd:fail-exit true
+          set xfer:clobber on
           lcd $PWD
           cd ${REMOTE}
           put -O . index.html
@@ -53,10 +61,7 @@ jobs:
           put -O . privacy-policy.html
           put -O . spasibo.html
           mkdir -f spasibo
-          cd spasibo
-          lcd spasibo
-          put -O . index.html
-          lcd $PWD
+          put -O spasibo spasibo/index.html
           cd ${REMOTE}assets
           lcd assets
           put -O . qmagic.js
@@ -73,21 +78,36 @@ jobs:
           done
 
           if [ "$FULL_SYNC" = "1" ]; then
-            MIRROR_EXCLUDES="-X .git/ -X .github/ -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html"
-            echo "========== Phase 2: full sync =========="
+            MIRROR_EXCLUDES="-X .git/ -X .github/ -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/"
+            echo "========== Phase 2: full assets sync =========="
           else
-            MIRROR_EXCLUDES="-X .git/ -X .github/ -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X assets/reviews/partner-review.mp4 -X assets/presentation/franchise.pdf -X assets/presentation/consulting.pdf -X assets/hero/hero-loop.mp4"
-            echo "========== Phase 2: lite (skip large video/PDF) =========="
+            MIRROR_EXCLUDES="-X .git/ -X .github/ -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/ -X assets/reviews/partner-review.mp4 -X assets/presentation/franchise.pdf -X assets/presentation/consulting.pdf -X assets/hero/hero-loop.mp4"
+            echo "========== Phase 2: lite assets (skip large video/PDF) =========="
           fi
 
           for attempt in 1 2 3 4 5; do
             echo "========== Phase 2 attempt ${attempt}/5 =========="
-            if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" -e "set ftp:passive-mode true; set ftp:ssl-allow false; set net:timeout 120; set net:max-retries 5; set cmd:fail-exit true; lcd $PWD; mirror -R --parallel=1 --only-newer --verbose ${MIRROR_EXCLUDES} ./ ${REMOTE}/; quit"; then
-              echo "Deploy succeeded"
-              exit 0
+            if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" -e "set ftp:passive-mode true; set ftp:ssl-allow false; set net:timeout 120; set net:max-retries 5; set cmd:fail-exit true; set xfer:clobber on; lcd $PWD; mirror -R --parallel=1 --verbose ${MIRROR_EXCLUDES} ./ ${REMOTE}/; quit"; then
+              echo "FTP upload finished"
+              break
             fi
+            [ "$attempt" -eq 5 ] && exit 1
             sleep 15
           done
 
-          echo "Phase 2 failed after retries"
-          exit 1
+      - name: Verify live site
+        run: |
+          set -euo pipefail
+          BASE="http://volki-frn.by"
+          echo "Checking ${BASE}/ ..."
+          BODY=$(curl -sf --max-time 30 "${BASE}/")
+          echo "$BODY" | grep -q 'A-frame дом и две бани' || {
+            echo "::error::index.html on server is outdated (missing merged Veska block). Check FTP_REMOTE_DIR=/www/volki-frn.by/"
+            exit 1
+          }
+          echo "Checking ${BASE}/spasibo/ ..."
+          curl -sfI --max-time 30 "${BASE}/spasibo/" | grep -qi '200 OK' || {
+            echo "::error::/spasibo/ not found on server"
+            exit 1
+          }
+          echo "Live site OK"
