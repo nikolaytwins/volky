@@ -4253,7 +4253,7 @@ function submitPresentationModal() {
 presSubmitBtn.addEventListener('click', submitPresentationModal);
 
 function redirectToThankYou(source) {
-  window.location.href = 'spasibo.html?from=' + encodeURIComponent(source || 'contact');
+  window.location.href = 'spasibo/?from=' + encodeURIComponent(source || 'contact');
 }
 
 function validateConsent(checkbox, rowId, errId) {
