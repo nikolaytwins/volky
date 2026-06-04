@@ -4246,15 +4246,15 @@ function submitPresentationModal() {
     sessionStorage.setItem(PRES_ACCESS_KEY, 'granted');
   } catch (err) {}
 
-  presModalForm.classList.add('hide');
-  presModalSuccess.classList.add('show');
-
-  setTimeout(() => {
-    window.location.href = 'presentation.html';
-  }, 900);
+  closePresentationModal();
+  redirectToThankYou('presentation');
 }
 
 presSubmitBtn.addEventListener('click', submitPresentationModal);
+
+function redirectToThankYou(source) {
+  window.location.href = 'spasibo.html?from=' + encodeURIComponent(source || 'contact');
+}
 
 function validateConsent(checkbox, rowId, errId) {
   const row = document.getElementById(rowId);
@@ -4322,8 +4322,7 @@ function submitLead() {
         'Согласие на обработку данных': consent.checked ? 'да' : 'нет',
       });
     }
-    document.getElementById('leadForm').style.display = 'none';
-    document.getElementById('leadSuccess').classList.add('show');
+    redirectToThankYou('lead');
   }
 }
 
@@ -4374,10 +4373,7 @@ function submitContact() {
         'Согласие на обработку данных': consent.checked ? 'да' : 'нет',
       });
     }
-    document.getElementById('contactFormWrap').style.display = 'none';
-    const s = document.getElementById('contactSuccess');
-    s.classList.add('show');
-    s.style.display = 'block';
+    redirectToThankYou('contact');
   }
 }
 
