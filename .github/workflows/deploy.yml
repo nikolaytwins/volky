@@ -5,8 +5,8 @@ on:
     branches: [main]
   workflow_dispatch:
     inputs:
-      upload_large_assets:
-        description: "Also upload large video/PDF files (~60 MB)"
+      full_sync:
+        description: "Upload all assets including large video/PDF (~60 MB)"
         required: false
         default: false
         type: boolean
@@ -22,57 +22,69 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Основной деплой: HTML, JS, картинки (без .git и без тяжёлых файлов)
-      - name: Deploy site files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 21
-          protocol: ftp
-          local-dir: ./
-          server-dir: ${{ secrets.FTP_REMOTE_DIR }}
-          dangerous-clean-slate: false
-          timeout: 600000
-          log-level: standard
-          exclude: |
-            .git/
-            .git/**
-            **/.git/**
-            **/.github/**
-            **/.env
-            **/.env.*
-            **/DEPLOY.md
-            **/UPLOAD-MANIFEST.txt
-            **/deploy.sh
-            **/.gitignore
-            assets/reviews/partner-review.mp4
-            assets/presentation/franchise.pdf
-            assets/presentation/consulting.pdf
-            assets/hero/hero-loop.mp4
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
 
-      # Тяжёлые файлы — только вручную (Run workflow → upload_large_assets)
-      - name: Deploy large assets
-        if: github.event_name == 'workflow_dispatch' && inputs.upload_large_assets == true
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 21
-          protocol: ftp
-          local-dir: ./
-          server-dir: ${{ secrets.FTP_REMOTE_DIR }}
-          dangerous-clean-slate: false
-          timeout: 600000
-          log-level: standard
-          include: |
-            assets/reviews/partner-review.mp4
-            assets/presentation/franchise.pdf
-            assets/presentation/consulting.pdf
-            assets/hero/hero-loop.mp4
-          exclude: |
-            .git/
-            .git/**
-            **/.git/**
+      - name: Deploy to hoster.by (lftp)
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+          FTP_DIR: ${{ secrets.FTP_REMOTE_DIR }}
+          FULL_SYNC: ${{ github.event_name == 'workflow_dispatch' && inputs.full_sync == true && '1' || '0' }}
+        run: |
+          set -euo pipefail
+          REMOTE="${FTP_DIR:-/www/volki-frn.by/}"
+          REMOTE="${REMOTE%/}/"
+
+          EXCLUDES=(
+            --exclude .git/
+            --exclude .github/
+            --exclude .env
+            --exclude .env.*
+            --exclude DEPLOY.md
+            --exclude UPLOAD-MANIFEST.txt
+            --exclude deploy.sh
+            --exclude .gitignore
+          )
+
+          if [ "$FULL_SYNC" != "1" ]; then
+            EXCLUDES+=(
+              --exclude-glob '**/partner-review.mp4'
+              --exclude-glob '**/franchise.pdf'
+              --exclude-glob '**/consulting.pdf'
+              --exclude-glob '**/hero-loop.mp4'
+            )
+            echo "Lite deploy: HTML, JS, images (without large video/PDF)"
+          else
+            echo "Full deploy: including large files"
+          fi
+
+          deploy_once() {
+            lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP
+          set ftp:passive-mode true
+          set ftp:ssl-allow false
+          set net:timeout 120
+          set net:max-retries 5
+          set net:reconnect-interval-base 5
+          set cmd:fail-exit true
+          lcd $PWD
+          mirror -R --parallel=1 --only-newer --verbose \
+            ${EXCLUDES[@]} \
+            ./ ${REMOTE}
+          quit
+          LFTP
+          }
+
+          for attempt in 1 2 3 4 5; do
+            echo "========== Deploy attempt ${attempt}/5 =========="
+            if deploy_once; then
+              echo "Deploy succeeded on attempt ${attempt}"
+              exit 0
+            fi
+            echo "Attempt ${attempt} failed, waiting 15s..."
+            sleep 15
+          done
+
+          echo "All deploy attempts failed"
+          exit 1

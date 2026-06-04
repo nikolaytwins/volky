@@ -81,8 +81,9 @@ git push
 
 ## Если деплой падает
 
-- **ECONNRESET / 239 files** — в старой версии workflow заливалась папка `.git`. Сейчас она исключена; обычный push заливает ~50 файлов (~15 МБ), без тяжёлых видео/PDF.
-- **Тяжёлые файлы** (видеоотзыв, PDF) уже на сервере после FileZilla. Если обновили их — **Actions** → **Deploy to hoster.by** → **Run workflow** → включить **upload_large_assets**.
+- **ECONNRESET** — FTP hoster.by часто рвёт соединение с серверов GitHub. Workflow использует **lftp** с 5 повторами и одним потоком (`--parallel=1`).
+- Если Actions всё равно красные — залейте правки локально: `./deploy.sh` (нужен `brew install lftp`).
+- **Тяжёлые файлы** (видеоотзыв, PDF) при обычном push **не** перезаливаются. Полная синхронизация: **Actions** → **Run workflow** → **full_sync**.
 - **Login incorrect** — проверьте `FTP_USERNAME` / `FTP_PASSWORD`.
 - **Wrong directory** — `FTP_REMOTE_DIR` = `/www/volki-frn.by/`
 
