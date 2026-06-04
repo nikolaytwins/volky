@@ -11,7 +11,6 @@ on:
         default: false
         type: boolean
 
-# Не отменять текущий деплой при новом push — иначе обрыв на середине
 concurrency:
   group: deploy-volki-frn
   cancel-in-progress: false
@@ -39,44 +38,15 @@ jobs:
           REMOTE="${FTP_DIR:-/www/volki-frn.by/}"
           REMOTE="${REMOTE%/}/"
 
-          EXCLUDES=(
-            --exclude .git/
-            --exclude .github/
-            --exclude .env
-            --exclude .env.*
-            --exclude DEPLOY.md
-            --exclude UPLOAD-MANIFEST.txt
-            --exclude deploy.sh
-            --exclude .gitignore
-            --exclude assets/analytics-head.html
-          )
-
-          if [ "$FULL_SYNC" != "1" ]; then
-            EXCLUDES+=(
-              --exclude-glob '**/partner-review.mp4'
-              --exclude-glob '**/franchise.pdf'
-              --exclude-glob '**/consulting.pdf'
-              --exclude-glob '**/hero-loop.mp4'
-            )
-          fi
-
-          run_lftp() {
-            lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP
+          echo "========== Phase 1: HTML, spasibo, JS =========="
+          for attempt in 1 2 3; do
+            if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP1
           set ftp:passive-mode true
           set ftp:ssl-allow false
           set net:timeout 120
           set net:max-retries 5
-          set net:reconnect-interval-base 5
           set cmd:fail-exit true
-          $1
-          quit
-          LFTP
-          }
-
-          # 1) Сначала критичные файлы (всегда перезаписать)
-          echo "========== Phase 1: HTML, spasibo, JS =========="
-          for attempt in 1 2 3; do
-            if run_lftp "lcd $PWD
+          lcd $PWD
           cd ${REMOTE}
           put -O . index.html
           put -O . presentation.html
@@ -85,12 +55,16 @@ jobs:
           mkdir -f spasibo
           cd spasibo
           lcd spasibo
-          mput -O . index.html
+          put -O . index.html
           lcd $PWD
           cd ${REMOTE}assets
           lcd assets
-          mput -O . qmagic.js fb-thank-you.js fb-pixel-config.js
-          "; then
+          put -O . qmagic.js
+          put -O . fb-thank-you.js
+          put -O . fb-pixel-config.js
+          quit
+          LFTP1
+            then
               echo "Phase 1 OK"
               break
             fi
@@ -98,14 +72,40 @@ jobs:
             sleep 10
           done
 
-          # 2) Остальные файлы (картинки и т.д.)
-          echo "========== Phase 2: assets and images =========="
+          LARGE_EXCLUDES=""
+          if [ "$FULL_SYNC" != "1" ]; then
+            LARGE_EXCLUDES="
+          --exclude-glob **/partner-review.mp4
+          --exclude-glob **/franchise.pdf
+          --exclude-glob **/consulting.pdf
+          --exclude-glob **/hero-loop.mp4"
+            echo "========== Phase 2: lite (no large video/PDF) =========="
+          else
+            echo "========== Phase 2: full sync =========="
+          fi
+
           for attempt in 1 2 3 4 5; do
             echo "========== Phase 2 attempt ${attempt}/5 =========="
-            if run_lftp "lcd $PWD
+            if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP2
+          set ftp:passive-mode true
+          set ftp:ssl-allow false
+          set net:timeout 120
+          set net:max-retries 5
+          set cmd:fail-exit true
+          lcd $PWD
           mirror -R --parallel=1 --only-newer --verbose \
-            ${EXCLUDES[@]} \
-            ./ ${REMOTE}"; then
+            --exclude .git/ \
+            --exclude .github/ \
+            --exclude DEPLOY.md \
+            --exclude UPLOAD-MANIFEST.txt \
+            --exclude deploy.sh \
+            --exclude .gitignore \
+            --exclude assets/analytics-head.html \
+            ${LARGE_EXCLUDES} \
+            ./ ${REMOTE}
+          quit
+          LFTP2
+            then
               echo "Deploy succeeded"
               exit 0
             fi
