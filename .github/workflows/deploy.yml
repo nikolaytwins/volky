@@ -35,45 +35,28 @@ jobs:
           FULL_SYNC: ${{ github.event_name == 'workflow_dispatch' && inputs.full_sync == true && '1' || '0' }}
         run: |
           set -euo pipefail
-          LOCAL_INDEX="$PWD/index.html"
-          LOCAL_BYTES=$(wc -c < "$LOCAL_INDEX" | tr -d ' ')
+          LOCAL_BYTES=$(wc -c < index.html | tr -d ' ')
+          MARKER_FILE="/tmp/index-marker.txt"
+          grep -F 'A-frame дом и две бани' index.html > "$MARKER_FILE"
 
-          normalize_path() {
-            local p="${1#/}"
-            p="${p%/}"
-            [[ -z "$p" || "$p" == "." ]] && echo "." || echo "$p"
-          }
-
-          # Домашняя папка FTP = /www → сайт в volki-frn.by/ (не www/volki-frn.by — это /www/www/...)
-          PRIMARY="$(normalize_path "${FTP_DIR:-volki-frn.by}")"
-          DEPLOY_PATHS=()
-          for p in "$PRIMARY" "volki-frn.by" "httpdocs" "www/volki-frn.by"; do
-            n="$(normalize_path "$p")"
-            skip=0
-            for existing in "${DEPLOY_PATHS[@]:-}"; do
-              [[ "$existing" == "$n" ]] && skip=1 && break
-            done
-            [[ "$skip" -eq 0 ]] && DEPLOY_PATHS+=("$n")
-          done
+          # FTP home /www → сайт в volki-frn.by (секрет www/volki-frn.by тоже нормализуем)
+          REMOTE="${FTP_DIR:-volki-frn.by}"
+          REMOTE="${REMOTE#/}"
+          REMOTE="${REMOTE#www/}"
+          REMOTE="${REMOTE%/}"
 
           echo "Local index.html: ${LOCAL_BYTES} bytes"
-          echo "Deploy paths: ${DEPLOY_PATHS[*]}"
+          echo "FTP site path: ${REMOTE}/"
 
           if [ "$FULL_SYNC" = "1" ]; then
             MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/"
-            echo "Phase 2 mode: full assets"
           else
             MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/ -X assets/reviews/partner-review.mp4 -X assets/presentation/franchise.pdf -X assets/presentation/consulting.pdf -X assets/hero/hero-loop.mp4"
-            echo "Phase 2 mode: lite assets"
           fi
 
-          deploy_path() {
-            local REMOTE="$1"
-            local cd_cmd="cd ${REMOTE}"
-            [[ "$REMOTE" == "." ]] && cd_cmd="true"
-
-            echo "========== Deploy to: ${REMOTE} =========="
-            lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP1
+          echo "========== Phase 1: HTML + spasibo + JS =========="
+          for attempt in 1 2 3; do
+            if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP1
           set ftp:passive-mode true
           set ftp:ssl-allow false
           set net:timeout 120
@@ -81,9 +64,7 @@ jobs:
           set cmd:fail-exit true
           set xfer:clobber on
           lcd $PWD
-          pwd
-          ${cd_cmd}
-          pwd
+          cd ${REMOTE}
           put -O . index.html
           put -O . presentation.html
           put -O . privacy-policy.html
@@ -97,57 +78,61 @@ jobs:
           put -O assets/ fb-pixel-config.js
           quit
           LFTP1
-
-            for attempt in 1 2 3; do
-              echo "Mirror ${REMOTE} attempt ${attempt}/3"
-              if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" -e "set ftp:passive-mode true; set ftp:ssl-allow false; set net:timeout 120; set net:max-retries 5; set cmd:fail-exit true; set xfer:clobber on; lcd $PWD; mirror -R --parallel=1 --verbose ${MIRROR_EXCLUDES} ./ ${REMOTE}; quit"; then
-                break
-              fi
-              [[ "$attempt" -eq 3 ]] && return 1
-              sleep 10
-            done
-
-            local probe="/tmp/remote-index-$$.html"
-            local get_cd="cd ${REMOTE};"
-            [[ "$REMOTE" == "." ]] && get_cd=""
-            lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" -e "set ftp:passive-mode true; set ftp:ssl-allow false; set cmd:fail-exit true; ${get_cd} get -o ${probe} index.html; quit"
-            local remote_bytes
-            remote_bytes=$(wc -c < "$probe" | tr -d ' ')
-            if grep -q 'A-frame дом и две бани' "$probe"; then
-              echo "FTP OK at ${REMOTE}: index ${remote_bytes} bytes, marker found"
-              echo "$REMOTE" >> /tmp/deploy-hit-path.txt
-              rm -f "$probe"
-              return 0
+            then break
             fi
-            echo "FTP at ${REMOTE}: index ${remote_bytes} bytes (expected ${LOCAL_BYTES}), marker missing"
-            rm -f "$probe"
-            return 1
-          }
-
-          rm -f /tmp/deploy-hit-path.txt
-          FTP_OK=0
-          for REMOTE in "${DEPLOY_PATHS[@]}"; do
-            if deploy_path "$REMOTE"; then
-              FTP_OK=1
-            fi
+            [ "$attempt" -eq 3 ] && exit 1
+            sleep 10
           done
+          echo "Phase 1 OK"
 
-          if [[ "$FTP_OK" -eq 0 ]]; then
-            echo "::error::index.html not updated on FTP in any of: ${DEPLOY_PATHS[*]}. In Plesk set FTP home to site docroot."
+          for attempt in 1 2 3 4 5; do
+            echo "========== Phase 2 mirror attempt ${attempt}/5 =========="
+            if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" -e "set ftp:passive-mode true; set ftp:ssl-allow false; set net:timeout 120; set net:max-retries 5; set cmd:fail-exit true; set xfer:clobber on; lcd $PWD; cd ${REMOTE}; mirror -R --parallel=1 --verbose ${MIRROR_EXCLUDES} ./ .; quit"; then
+              break
+            fi
+            [ "$attempt" -eq 5 ] && exit 1
+            sleep 15
+          done
+          echo "Phase 2 OK"
+
+          PROBE="/tmp/remote-index.html"
+          rm -f "$PROBE"
+          echo "========== FTP verify =========="
+          lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP2
+          set ftp:passive-mode true
+          set ftp:ssl-allow false
+          set cmd:fail-exit true
+          cd ${REMOTE}
+          get index.html -o ${PROBE}
+          quit
+          LFTP2
+
+          if [[ ! -f "$PROBE" ]]; then
+            echo "::error::Could not download index.html from FTP path ${REMOTE}/"
             exit 1
           fi
-          echo "FTP paths with fresh index: $(tr '\n' ' ' < /tmp/deploy-hit-path.txt)"
+          REMOTE_BYTES=$(wc -c < "$PROBE" | tr -d ' ')
+          echo "Remote index.html: ${REMOTE_BYTES} bytes (local ${LOCAL_BYTES})"
+          if [[ "$REMOTE_BYTES" -lt 169000 ]]; then
+            echo "::error::Remote index.html too small; check FTP_REMOTE_DIR=volki-frn.by (FTP home /www)"
+            exit 1
+          fi
+          if ! grep -qF -f "$MARKER_FILE" "$PROBE"; then
+            echo "::error::Remote index.html missing expected content"
+            exit 1
+          fi
+          echo "FTP verify OK"
 
       - name: Verify live site
         run: |
           set -euo pipefail
           BASE="http://volki-frn.by"
           for i in 1 2 3 4 5 6; do
-            echo "HTTP check attempt ${i}/6 ..."
+            echo "HTTP check ${i}/6 ..."
             BODY=$(curl -s --max-time 30 "${BASE}/" || true)
-            if echo "$BODY" | grep -q 'A-frame дом и две бани'; then
+            if echo "$BODY" | grep -qF 'A-frame дом и две бани'; then
               curl -sI --max-time 30 "${BASE}/spasibo/" | grep -qi '200 OK' || {
-                echo "::error::/spasibo/ not found on server"
+                echo "::error::/spasibo/ not found"
                 exit 1
               }
               echo "Live site OK"
@@ -155,5 +140,5 @@ jobs:
             fi
             sleep 10
           done
-          echo "::error::Site still shows old index.html. In Plesk align Document root with FTP (see 'FTP paths with fresh index' in deploy log)."
+          echo "::error::HTTP still shows old index. Plesk docroot must be /www/volki-frn.by and FTP path volki-frn.by"
           exit 1
