@@ -44,7 +44,7 @@ jobs:
             exit 1
           fi
 
-          echo "Deploy target (FTP-relative): ${REMOTE}/"
+          echo "Deploy target (FTP-relative): ${REMOTE}"
 
           echo "========== Phase 1: force HTML + spasibo + JS =========="
           for attempt in 1 2 3; do
@@ -62,12 +62,12 @@ jobs:
           put -O . privacy-policy.html
           put -O . spasibo.html
           mkdir -f spasibo
-          put -O spasibo spasibo/index.html
-          cd ${REMOTE}assets
+          put -O spasibo/ spasibo/index.html
+          mkdir -f assets
           lcd assets
-          put -O . qmagic.js
-          put -O . fb-thank-you.js
-          put -O . fb-pixel-config.js
+          put -O assets/ qmagic.js
+          put -O assets/ fb-thank-you.js
+          put -O assets/ fb-pixel-config.js
           quit
           LFTP1
             then
@@ -88,7 +88,7 @@ jobs:
 
           for attempt in 1 2 3 4 5; do
             echo "========== Phase 2 attempt ${attempt}/5 =========="
-            if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" -e "set ftp:passive-mode true; set ftp:ssl-allow false; set net:timeout 120; set net:max-retries 5; set cmd:fail-exit true; set xfer:clobber on; lcd $PWD; mirror -R --parallel=1 --verbose ${MIRROR_EXCLUDES} ./ ${REMOTE}/; quit"; then
+            if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" -e "set ftp:passive-mode true; set ftp:ssl-allow false; set net:timeout 120; set net:max-retries 5; set cmd:fail-exit true; set xfer:clobber on; lcd $PWD; mirror -R --parallel=1 --verbose ${MIRROR_EXCLUDES} ./ ${REMOTE}; quit"; then
               echo "FTP upload finished"
               break
             fi
