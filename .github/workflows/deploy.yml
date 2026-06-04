@@ -73,10 +73,10 @@ jobs:
           done
 
           if [ "$FULL_SYNC" = "1" ]; then
-            MIRROR_EXCLUDES="--exclude .git/ --exclude .github/ --exclude DEPLOY.md --exclude UPLOAD-MANIFEST.txt --exclude deploy.sh --exclude .gitignore --exclude assets/analytics-head.html"
+            MIRROR_EXCLUDES="-X .git/ -X .github/ -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html"
             echo "========== Phase 2: full sync =========="
           else
-            MIRROR_EXCLUDES="--exclude .git/ --exclude .github/ --exclude DEPLOY.md --exclude UPLOAD-MANIFEST.txt --exclude deploy.sh --exclude .gitignore --exclude assets/analytics-head.html --exclude **/partner-review.mp4 --exclude **/franchise.pdf --exclude **/consulting.pdf --exclude **/hero-loop.mp4"
+            MIRROR_EXCLUDES="-X .git/ -X .github/ -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X assets/reviews/partner-review.mp4 -X assets/presentation/franchise.pdf -X assets/presentation/consulting.pdf -X assets/hero/hero-loop.mp4"
             echo "========== Phase 2: lite (skip large video/PDF) =========="
           fi
 
