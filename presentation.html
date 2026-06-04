@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volki — Скачать презентации</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: #0E0E0E;
+    color: #F5EFE6;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 720px; width: 100%; text-align: center; }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #C8873F;
+    margin-bottom: 32px;
+    display: inline-block;
+  }
+  .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #C8873F;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .sub {
+    color: #A8A29E;
+    font-size: 0.9rem;
+    margin-bottom: 48px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 600px) { .cards { grid-template-columns: 1fr; } }
+  .card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 36px 28px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .card:hover {
+    border-color: rgba(200,135,63,0.35);
+    background: rgba(200,135,63,0.06);
+  }
+  .card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+  .card p {
+    font-size: 0.82rem;
+    color: #A8A29E;
+    margin-bottom: 24px;
+    min-height: 2.8em;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: #C8873F;
+    color: #0E0E0E;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.3s;
+  }
+  .btn:hover { background: #A65A2E; }
+  .back {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #A8A29E;
+    transition: color 0.3s;
+  }
+  .back:hover { color: #C8873F; }
+  .denied {
+    display: none;
+    max-width: 420px;
+  }
+  .denied.show { display: block; }
+  .denied h1 { margin-bottom: 20px; }
+  .content { display: none; }
+  .content.show { display: block; }
+  .page-footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.72rem;
+    color: #A8A29E;
+    line-height: 1.7;
+  }
+  .page-footer a { color: #C8873F; text-decoration: none; }
+  .page-footer a:hover { text-decoration: underline; }
+  .page-footer strong { color: #F5EFE6; font-weight: 500; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="denied" class="denied">
+      <a href="index.html" class="logo">VOLKI</a>
+      <h1>Доступ закрыт</h1>
+      <p class="sub">Страница скачивания доступна только после заполнения формы на сайте (блок «Консалтинг» или «Франшиза»).</p>
+      <a href="index.html#format" class="btn" style="max-width:280px;margin:0 auto 24px;">На главную</a>
+      <footer class="page-footer">
+        <strong>ООО «Альянс Татами»</strong> · УНП 193590728<br>
+        <a href="privacy-policy.html">Политика конфиденциальности</a> ·
+        <a href="privacy-policy.html#requisites">Реквизиты компании</a>
+      </footer>
+    </div>
+
+    <div id="content" class="content">
+      <a href="index.html" class="logo">VOLKI</a>
+      <div class="label">Презентации</div>
+      <h1>Выберите материал для скачивания</h1>
+      <p class="sub">Спасибо за заявку. Скачайте нужную презентацию в формате PDF.</p>
+      <div class="cards">
+        <article class="card">
+          <h2>Консалтинг</h2>
+          <p>Сопровождение запуска банного комплекса: модель, экономика, кейсы.</p>
+          <a class="btn" href="assets/presentation/consulting.pdf" download="Volki-consulting.pdf">Скачать PDF</a>
+        </article>
+        <article class="card">
+          <h2>Франшиза</h2>
+          <p>Франшиза VOLKI: условия, стандарты и система запуска под брендом.</p>
+          <a class="btn" href="assets/presentation/franchise.pdf" download="Volki-franchise.pdf">Скачать PDF</a>
+        </article>
+      </div>
+      <a href="index.html" class="back">← Вернуться на сайт</a>
+      <footer class="page-footer">
+        <strong>ООО «Альянс Татами»</strong> · УНП 193590728<br>
+        <a href="privacy-policy.html">Политика конфиденциальности</a> ·
+        <a href="privacy-policy.html#requisites">Реквизиты компании</a>
+      </footer>
+    </div>
+  </div>
+<script>
+(function () {
+  var KEY = 'volki_presentation_access';
+  var granted = false;
+  try {
+    granted = sessionStorage.getItem(KEY) === 'granted';
+  } catch (e) {}
+  if (granted) {
+    document.getElementById('content').classList.add('show');
+  } else {
+    document.getElementById('denied').classList.add('show');
+  }
+})();
+</script>
+</body>
+</html>

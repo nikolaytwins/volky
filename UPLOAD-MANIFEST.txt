@@ -1,0 +1,42 @@
+Полный список файлов для заливки на hoster.by (47 файлов, ~75 МБ)
+Корень сайта (httpdocs): index.html, presentation.html, privacy-policy.html, папка assets/
+
+HTML (3):
+  index.html
+  presentation.html
+  privacy-policy.html
+
+assets/qmagic.js
+assets/volki-logo.png
+assets/nikolay.png
+
+assets/hero/hero-loop.mp4          (~2.4 МБ)
+assets/hero/hero-poster.jpg
+
+assets/economics/bath-complex.jpg
+assets/economics/premium-complex.jpg
+assets/economics/spa-resort.jpg
+
+assets/presentation/consulting.pdf  (~4.7 МБ)
+assets/presentation/franchise.pdf   (~17 МБ)
+assets/presentation/slide-1.jpg
+assets/presentation/slide-2.jpg
+
+assets/reviews/partner-review.mp4         (~38 МБ) — часто обрывается!
+assets/reviews/partner-review-poster.jpg
+
+assets/projects/arakaevo/01.jpg … 06.jpg
+assets/projects/chalet/01.jpg 02.jpg 05.jpg 07.jpg 08.jpg 10.jpg 11.jpg 12.jpg
+assets/projects/ethnos/05.jpg 06.jpg
+assets/projects/etno/002.jpg 024.jpg
+assets/projects/monastyrskaya/002.jpg
+assets/projects/movnya/001.jpg
+assets/projects/shamanskaya/002.jpg
+assets/projects/village/a-frame/01.jpg
+assets/projects/village/cottage/01.jpg
+assets/projects/village/russian-bath/01.jpg
+assets/projects/village/territory/02.jpg
+assets/projects/village/territory/03.jpg
+assets/projects/zvenyachi/01.jpg … 04.jpg
+
+НЕ заливать: .DS_Store, UPLOAD-MANIFEST.txt
