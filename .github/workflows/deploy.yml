@@ -11,13 +11,15 @@ on:
         default: false
         type: boolean
 
+# Не отменять текущий деплой при новом push — иначе обрыв на середине
 concurrency:
   group: deploy-volki-frn
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,6 +48,7 @@ jobs:
             --exclude UPLOAD-MANIFEST.txt
             --exclude deploy.sh
             --exclude .gitignore
+            --exclude assets/analytics-head.html
           )
 
           if [ "$FULL_SYNC" != "1" ]; then
@@ -55,12 +58,9 @@ jobs:
               --exclude-glob '**/consulting.pdf'
               --exclude-glob '**/hero-loop.mp4'
             )
-            echo "Lite deploy: HTML, JS, images (without large video/PDF)"
-          else
-            echo "Full deploy: including large files"
           fi
 
-          deploy_once() {
+          run_lftp() {
             lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP
           set ftp:passive-mode true
           set ftp:ssl-allow false
@@ -68,23 +68,49 @@ jobs:
           set net:max-retries 5
           set net:reconnect-interval-base 5
           set cmd:fail-exit true
-          lcd $PWD
-          mirror -R --parallel=1 --only-newer --verbose \
-            ${EXCLUDES[@]} \
-            ./ ${REMOTE}
+          $1
           quit
           LFTP
           }
 
+          # 1) Сначала критичные файлы (всегда перезаписать)
+          echo "========== Phase 1: HTML, spasibo, JS =========="
+          for attempt in 1 2 3; do
+            if run_lftp "lcd $PWD
+          cd ${REMOTE}
+          put -O . index.html
+          put -O . presentation.html
+          put -O . privacy-policy.html
+          put -O . spasibo.html
+          mkdir -f spasibo
+          cd spasibo
+          lcd spasibo
+          mput -O . index.html
+          lcd $PWD
+          cd ${REMOTE}assets
+          lcd assets
+          mput -O . qmagic.js fb-thank-you.js fb-pixel-config.js
+          "; then
+              echo "Phase 1 OK"
+              break
+            fi
+            [ "$attempt" -eq 3 ] && exit 1
+            sleep 10
+          done
+
+          # 2) Остальные файлы (картинки и т.д.)
+          echo "========== Phase 2: assets and images =========="
           for attempt in 1 2 3 4 5; do
-            echo "========== Deploy attempt ${attempt}/5 =========="
-            if deploy_once; then
-              echo "Deploy succeeded on attempt ${attempt}"
+            echo "========== Phase 2 attempt ${attempt}/5 =========="
+            if run_lftp "lcd $PWD
+          mirror -R --parallel=1 --only-newer --verbose \
+            ${EXCLUDES[@]} \
+            ./ ${REMOTE}"; then
+              echo "Deploy succeeded"
               exit 0
             fi
-            echo "Attempt ${attempt} failed, waiting 15s..."
             sleep 15
           done
 
-          echo "All deploy attempts failed"
+          echo "Phase 2 failed after retries"
           exit 1
