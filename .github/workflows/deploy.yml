@@ -35,20 +35,45 @@ jobs:
           FULL_SYNC: ${{ github.event_name == 'workflow_dispatch' && inputs.full_sync == true && '1' || '0' }}
         run: |
           set -euo pipefail
-          REMOTE="${FTP_DIR:-www/volki-frn.by/}"
-          REMOTE="${REMOTE#/}"
-          REMOTE="${REMOTE%/}/"
+          LOCAL_INDEX="$PWD/index.html"
+          LOCAL_BYTES=$(wc -c < "$LOCAL_INDEX" | tr -d ' ')
 
-          if [[ "$REMOTE" != *volki-frn* ]]; then
-            echo "::error::FTP_REMOTE_DIR must point at the site folder (e.g. www/volki-frn.by/), not httpdocs. Got: ${REMOTE}"
-            exit 1
+          normalize_path() {
+            local p="${1#/}"
+            p="${p%/}"
+            [[ -z "$p" || "$p" == "." ]] && echo "." || echo "$p"
+          }
+
+          PRIMARY="$(normalize_path "${FTP_DIR:-www/volki-frn.by}")"
+          # hoster.by: nginx часто смотрит в httpdocs, а FTP — в www/volki-frn.by (или наоборот)
+          DEPLOY_PATHS=()
+          for p in "$PRIMARY" "httpdocs" "www/volki-frn.by" "."; do
+            n="$(normalize_path "$p")"
+            skip=0
+            for existing in "${DEPLOY_PATHS[@]:-}"; do
+              [[ "$existing" == "$n" ]] && skip=1 && break
+            done
+            [[ "$skip" -eq 0 ]] && DEPLOY_PATHS+=("$n")
+          done
+
+          echo "Local index.html: ${LOCAL_BYTES} bytes"
+          echo "Deploy paths: ${DEPLOY_PATHS[*]}"
+
+          if [ "$FULL_SYNC" = "1" ]; then
+            MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/"
+            echo "Phase 2 mode: full assets"
+          else
+            MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/ -X assets/reviews/partner-review.mp4 -X assets/presentation/franchise.pdf -X assets/presentation/consulting.pdf -X assets/hero/hero-loop.mp4"
+            echo "Phase 2 mode: lite assets"
           fi
 
-          echo "Deploy target (FTP-relative): ${REMOTE}"
+          deploy_path() {
+            local REMOTE="$1"
+            local cd_cmd="cd ${REMOTE}"
+            [[ "$REMOTE" == "." ]] && cd_cmd="true"
 
-          echo "========== Phase 1: force HTML + spasibo + JS =========="
-          for attempt in 1 2 3; do
-            if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP1
+            echo "========== Deploy to: ${REMOTE} =========="
+            lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP1
           set ftp:passive-mode true
           set ftp:ssl-allow false
           set net:timeout 120
@@ -56,7 +81,9 @@ jobs:
           set cmd:fail-exit true
           set xfer:clobber on
           lcd $PWD
-          cd ${REMOTE}
+          pwd
+          ${cd_cmd}
+          pwd
           put -O . index.html
           put -O . presentation.html
           put -O . privacy-policy.html
@@ -70,45 +97,63 @@ jobs:
           put -O assets/ fb-pixel-config.js
           quit
           LFTP1
-            then
-              echo "Phase 1 OK"
-              break
+
+            for attempt in 1 2 3; do
+              echo "Mirror ${REMOTE} attempt ${attempt}/3"
+              if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" -e "set ftp:passive-mode true; set ftp:ssl-allow false; set net:timeout 120; set net:max-retries 5; set cmd:fail-exit true; set xfer:clobber on; lcd $PWD; mirror -R --parallel=1 --verbose ${MIRROR_EXCLUDES} ./ ${REMOTE}; quit"; then
+                break
+              fi
+              [[ "$attempt" -eq 3 ]] && return 1
+              sleep 10
+            done
+
+            local probe="/tmp/remote-index-$$.html"
+            local get_cd="cd ${REMOTE};"
+            [[ "$REMOTE" == "." ]] && get_cd=""
+            lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" -e "set ftp:passive-mode true; set ftp:ssl-allow false; set cmd:fail-exit true; ${get_cd} get -o ${probe} index.html; quit"
+            local remote_bytes
+            remote_bytes=$(wc -c < "$probe" | tr -d ' ')
+            if grep -q 'A-frame дом и две бани' "$probe"; then
+              echo "FTP OK at ${REMOTE}: index ${remote_bytes} bytes, marker found"
+              echo "$REMOTE" >> /tmp/deploy-hit-path.txt
+              rm -f "$probe"
+              return 0
             fi
-            [ "$attempt" -eq 3 ] && exit 1
-            sleep 10
+            echo "FTP at ${REMOTE}: index ${remote_bytes} bytes (expected ${LOCAL_BYTES}), marker missing"
+            rm -f "$probe"
+            return 1
+          }
+
+          rm -f /tmp/deploy-hit-path.txt
+          FTP_OK=0
+          for REMOTE in "${DEPLOY_PATHS[@]}"; do
+            if deploy_path "$REMOTE"; then
+              FTP_OK=1
+            fi
           done
 
-          if [ "$FULL_SYNC" = "1" ]; then
-            MIRROR_EXCLUDES="-X .git/ -X .github/ -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/"
-            echo "========== Phase 2: full assets sync =========="
-          else
-            MIRROR_EXCLUDES="-X .git/ -X .github/ -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/ -X assets/reviews/partner-review.mp4 -X assets/presentation/franchise.pdf -X assets/presentation/consulting.pdf -X assets/hero/hero-loop.mp4"
-            echo "========== Phase 2: lite assets (skip large video/PDF) =========="
+          if [[ "$FTP_OK" -eq 0 ]]; then
+            echo "::error::index.html not updated on FTP in any of: ${DEPLOY_PATHS[*]}. In Plesk set FTP home to site docroot."
+            exit 1
           fi
-
-          for attempt in 1 2 3 4 5; do
-            echo "========== Phase 2 attempt ${attempt}/5 =========="
-            if lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" -e "set ftp:passive-mode true; set ftp:ssl-allow false; set net:timeout 120; set net:max-retries 5; set cmd:fail-exit true; set xfer:clobber on; lcd $PWD; mirror -R --parallel=1 --verbose ${MIRROR_EXCLUDES} ./ ${REMOTE}; quit"; then
-              echo "FTP upload finished"
-              break
-            fi
-            [ "$attempt" -eq 5 ] && exit 1
-            sleep 15
-          done
+          echo "FTP paths with fresh index: $(tr '\n' ' ' < /tmp/deploy-hit-path.txt)"
 
       - name: Verify live site
         run: |
           set -euo pipefail
           BASE="http://volki-frn.by"
-          echo "Checking ${BASE}/ ..."
-          BODY=$(curl -s --max-time 30 "${BASE}/" || true)
-          echo "$BODY" | grep -q 'A-frame дом и две бани' || {
-            echo "::error::index.html on server is outdated. Set FTP_REMOTE_DIR=www/volki-frn.by/ (no leading slash)."
-            exit 1
-          }
-          echo "Checking ${BASE}/spasibo/ ..."
-          curl -sI --max-time 30 "${BASE}/spasibo/" | grep -qi '200 OK' || {
-            echo "::error::/spasibo/ not found on server"
-            exit 1
-          }
-          echo "Live site OK"
+          for i in 1 2 3 4 5 6; do
+            echo "HTTP check attempt ${i}/6 ..."
+            BODY=$(curl -s --max-time 30 "${BASE}/" || true)
+            if echo "$BODY" | grep -q 'A-frame дом и две бани'; then
+              curl -sI --max-time 30 "${BASE}/spasibo/" | grep -qi '200 OK' || {
+                echo "::error::/spasibo/ not found on server"
+                exit 1
+              }
+              echo "Live site OK"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::Site still shows old index.html. In Plesk align Document root with FTP (see 'FTP paths with fresh index' in deploy log)."
+          exit 1
