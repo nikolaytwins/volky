@@ -1,10 +1,14 @@
 # Автодеплой Volki → volki-frn.by (hoster.by)
 
-Корень сайта для nginx в панели: **`/www/volki-frn.by/`** (или **`httpdocs`** — смотрите в Plesk → Сайты → volki-frn.by → Хостинг).
+Корень сайта на сервере: **`/www/volki-frn.by/`**.
 
-**Важно:** FTP-логин часто «заключён» в `httpdocs`. Тогда заливка в `www/volki-frn.by` попадает в `httpdocs/www/volki-frn.by`, а сайт отдаётся из другой папки. Workflow заливает в несколько путей; в логе смотрите строку **`Used FTP path`**.
+Если у FTP-пользователя **домашняя папка `/www`**, в GitHub Secret укажите:
 
-Лучше в Plesk у FTP-пользователя **домашняя папка = корень сайта**, тогда секрет: **`FTP_REMOTE_DIR=.`**
+**`FTP_REMOTE_DIR` = `volki-frn.by`**
+
+Не `www/volki-frn.by` — при домашней `/www` это даст лишнюю вложенность `/www/www/volki-frn.by/`.
+
+Workflow дополнительно пробует `httpdocs` и `www/volki-frn.by` на случай другой схемы; в логе смотрите **`FTP paths with fresh index`**.
 
 После настройки: правки в Cursor → `git push` → сайт обновляется сам (1–5 мин).
 
@@ -40,7 +44,7 @@ git push -u origin main
 | `FTP_SERVER` | `87.232.64.14` (или `ftp.hoster.by` из панели) |
 | `FTP_USERNAME` | `volki-upload` (ваш FTP-логин) |
 | `FTP_PASSWORD` | пароль FTP |
-| `FTP_REMOTE_DIR` | `.` если домашняя папка FTP = корень сайта; иначе `httpdocs` или `www/volki-frn.by` (без ведущего `/`) |
+| `FTP_REMOTE_DIR` | **`volki-frn.by`** при домашней FTP `/www`; без ведущего `/` |
 | `FTP_PORT` | `21` (опционально; если не работает — попробуйте `22` и смените protocol в workflow на `ftps`) |
 
 ---

@@ -44,10 +44,10 @@ jobs:
             [[ -z "$p" || "$p" == "." ]] && echo "." || echo "$p"
           }
 
-          PRIMARY="$(normalize_path "${FTP_DIR:-www/volki-frn.by}")"
-          # hoster.by: nginx часто смотрит в httpdocs, а FTP — в www/volki-frn.by (или наоборот)
+          # Домашняя папка FTP = /www → сайт в volki-frn.by/ (не www/volki-frn.by — это /www/www/...)
+          PRIMARY="$(normalize_path "${FTP_DIR:-volki-frn.by}")"
           DEPLOY_PATHS=()
-          for p in "$PRIMARY" "httpdocs" "www/volki-frn.by" "."; do
+          for p in "$PRIMARY" "volki-frn.by" "httpdocs" "www/volki-frn.by"; do
             n="$(normalize_path "$p")"
             skip=0
             for existing in "${DEPLOY_PATHS[@]:-}"; do
