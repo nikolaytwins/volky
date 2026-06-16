@@ -129,12 +129,13 @@ jobs:
       - name: Verify live site
         run: |
           set -euo pipefail
-          BASE="http://volki-frn.by"
+          BASE="https://volki-frn.by"
+          UA="Mozilla/5.0 (compatible; VolkiDeployCheck/1.0)"
           for i in 1 2 3 4 5 6; do
             echo "HTTP check ${i}/6 ..."
-            BODY=$(curl -s --max-time 30 "${BASE}/" || true)
+            BODY=$(curl -sL --max-time 30 -A "${UA}" -H "Accept: text/html" "${BASE}/index.html" || true)
             if echo "$BODY" | grep -qF 'A-frame дом и две бани'; then
-              curl -sI --max-time 30 "${BASE}/spasibo/" | grep -qi '200 OK' || {
+              curl -sIL --max-time 30 -A "${UA}" "${BASE}/spasibo/" | grep -qi '200 OK' || {
                 echo "::error::/spasibo/ not found"
                 exit 1
               }
