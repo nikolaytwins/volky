@@ -25,16 +25,21 @@
       },
     };
 
+    const init = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Qmagic-Secret': c.secret,
+      },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    };
+    if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') {
+      init.signal = AbortSignal.timeout(12000);
+    }
+
     try {
-      const res = await fetch(c.apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Qmagic-Secret': c.secret,
-        },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(12000),
-      });
+      const res = await fetch(c.apiUrl, init);
       if (!res.ok) {
         const err = await res.text();
         console.warn('[QMagic] HTTP', res.status, err);
@@ -47,9 +52,9 @@
     }
   }
 
-  /** Не блокирует UI — отправка в фоне */
+  /** @deprecated use submitLead — ждёт ответ перед редиректом */
   function submitLeadBackground(formId, formTitle, fields) {
-    submitLead(formId, formTitle, fields).catch(function () {});
+    return submitLead(formId, formTitle, fields);
   }
 
   global.QMagic = { submitLead, submitLeadBackground };

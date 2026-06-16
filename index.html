@@ -3712,14 +3712,6 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
       <div class="franchise-card__body">
         <div class="franchise-card__badge" aria-hidden="true">V</div>
         <p class="franchise-card__text">Франшиза VOLKI — это готовая система запуска современного банного комплекса: концепция, проектирование, операционные стандарты, обучение команды, маркетинг, сопровождение запуска и развитие объекта под брендом VOLKI.</p>
-        <button type="button" class="franchise-dl-btn btn-presentation" data-presentation="franchise">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-          <span>Скачать презентацию</span>
-        </button>
-        <p class="franchise-dl-note">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4z"/></svg>
-          <span>Презентация содержит подробную информацию о модели, инвестициях и ожидаемой доходности.</span>
-        </p>
       </div>
     </div>
   </div>
@@ -4199,12 +4191,10 @@ const presModalSuccess = document.getElementById('presModalSuccess');
 const presSubmitBtn = document.getElementById('presSubmitBtn');
 
 const presTitles = {
-  consulting: 'Презентация: Консалтинг',
-  franchise: 'Презентация: Франшиза'
+  consulting: 'Презентация: Консалтинг'
 };
 const presSubs = {
-  consulting: 'Оставьте контакты — после этого сможете скачать презентации по консалтингу и франшизе.',
-  franchise: 'Оставьте контакты — после этого сможете скачать презентации по консалтингу и франшизе.'
+  consulting: 'Оставьте контакты — после этого сможете скачать презентацию по консалтингу.'
 };
 
 function openPresentationModal(type) {
@@ -4238,7 +4228,7 @@ document.querySelectorAll('.btn-presentation').forEach((btn) => {
   });
 });
 
-function submitPresentationModal() {
+async function submitPresentationModal() {
   let valid = true;
   const name = document.getElementById('presName');
   const email = document.getElementById('presEmail');
@@ -4272,7 +4262,7 @@ function submitPresentationModal() {
 
   const presType = presModalTitle.textContent || 'Презентация';
   if (window.QMagic) {
-    QMagic.submitLeadBackground('presentation', presType, {
+    await QMagic.submitLead('presentation', presType, {
       'Имя': name.value.trim(),
       'Email': email.value.trim(),
       'Телефон': phone.value.trim() || '—',
@@ -4320,7 +4310,7 @@ function validateConsent(checkbox, rowId, errId) {
 });
 
 // ===== FORM VALIDATION — LEAD =====
-function submitLead() {
+async function submitLead() {
   let valid = true;
   const name = document.getElementById('leadName');
   const email = document.getElementById('leadEmail');
@@ -4353,7 +4343,7 @@ function submitLead() {
 
   if (valid) {
     if (window.QMagic) {
-      QMagic.submitLeadBackground('lead', 'Скачать презентацию PDF', {
+      await QMagic.submitLead('lead', 'Скачать презентацию PDF', {
         'Имя': name.value.trim(),
         'Email': email.value.trim(),
         'Телефон': phone.value.trim() || '—',
@@ -4365,7 +4355,7 @@ function submitLead() {
 }
 
 // ===== FORM VALIDATION — CONTACT =====
-function submitContact() {
+async function submitContact() {
   let valid = true;
   const name = document.getElementById('cName');
   const contact = document.getElementById('cContact');
@@ -4402,7 +4392,7 @@ function submitContact() {
     const typeLabels = { phone: 'Телефон', tg: 'Telegram', wa: 'WhatsApp' };
     const contactLabel = typeLabels[contactType.value] || 'Контакт';
     if (window.QMagic) {
-      QMagic.submitLeadBackground('contact', 'Оставьте заявку', {
+      await QMagic.submitLead('contact', 'Оставьте заявку', {
         'Имя': name.value.trim(),
         [contactLabel]: contact.value.trim(),
         'Тип проекта': projectType.value || '—',
