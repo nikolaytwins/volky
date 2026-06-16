@@ -4014,7 +4014,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
 
 <script>
   window.QMAGIC = {
-    apiUrl: 'https://app.twinlabs.ru/qmagic/v1/lead',
+    apiUrl: '/api/lead.php',
     site: 'volki',
     secret: 'volki_cy1-hzaPfi36HtQ2LAkfpm_7Q3AlR6w6'
   };
@@ -4261,14 +4261,13 @@ async function submitPresentationModal() {
   if (!valid) return;
 
   const presType = presModalTitle.textContent || 'Презентация';
-  if (window.QMagic) {
-    await QMagic.submitLead('presentation', presType, {
-      'Имя': name.value.trim(),
-      'Email': email.value.trim(),
-      'Телефон': phone.value.trim() || '—',
-      'Согласие на обработку данных': consent.checked ? 'да' : 'нет',
-    });
-  }
+  const sent = await sendLeadOrAlert('presentation', presType, {
+    'Имя': name.value.trim(),
+    'Email': email.value.trim(),
+    'Телефон': phone.value.trim() || '—',
+    'Согласие на обработку данных': consent.checked ? 'да' : 'нет',
+  });
+  if (!sent) return;
 
   try {
     sessionStorage.setItem(PRES_ACCESS_KEY, 'granted');
@@ -4282,6 +4281,19 @@ presSubmitBtn.addEventListener('click', submitPresentationModal);
 
 function redirectToThankYou(source) {
   window.location.href = 'spasibo/?from=' + encodeURIComponent(source || 'contact');
+}
+
+async function sendLeadOrAlert(formId, formTitle, fields) {
+  if (!window.QMagic) {
+    alert('Ошибка отправки: форма не настроена. Напишите нам в Telegram или на почту с сайта.');
+    return false;
+  }
+  const result = await QMagic.submitLead(formId, formTitle, fields);
+  if (!result.ok) {
+    alert('Не удалось отправить заявку. Проверьте интернет и попробуйте ещё раз или напишите нам напрямую.');
+    return false;
+  }
+  return true;
 }
 
 function validateConsent(checkbox, rowId, errId) {
@@ -4342,15 +4354,13 @@ async function submitLead() {
   if (!validateConsent(consent, 'leadConsentRow', 'leadConsentErr')) valid = false;
 
   if (valid) {
-    if (window.QMagic) {
-      await QMagic.submitLead('lead', 'Скачать презентацию PDF', {
-        'Имя': name.value.trim(),
-        'Email': email.value.trim(),
-        'Телефон': phone.value.trim() || '—',
-        'Согласие на обработку данных': consent.checked ? 'да' : 'нет',
-      });
-    }
-    redirectToThankYou('lead');
+    const sent = await sendLeadOrAlert('lead', 'Скачать презентацию PDF', {
+      'Имя': name.value.trim(),
+      'Email': email.value.trim(),
+      'Телефон': phone.value.trim() || '—',
+      'Согласие на обработку данных': consent.checked ? 'да' : 'нет',
+    });
+    if (sent) redirectToThankYou('lead');
   }
 }
 
@@ -4391,17 +4401,15 @@ async function submitContact() {
   if (valid) {
     const typeLabels = { phone: 'Телефон', tg: 'Telegram', wa: 'WhatsApp' };
     const contactLabel = typeLabels[contactType.value] || 'Контакт';
-    if (window.QMagic) {
-      await QMagic.submitLead('contact', 'Оставьте заявку', {
-        'Имя': name.value.trim(),
-        [contactLabel]: contact.value.trim(),
-        'Тип проекта': projectType.value || '—',
-        'Стадия проекта': projectStage.value || '—',
-        'Комментарий': comment.value.trim() || '—',
-        'Согласие на обработку данных': consent.checked ? 'да' : 'нет',
-      });
-    }
-    redirectToThankYou('contact');
+    const sent = await sendLeadOrAlert('contact', 'Оставьте заявку', {
+      'Имя': name.value.trim(),
+      [contactLabel]: contact.value.trim(),
+      'Тип проекта': projectType.value || '—',
+      'Стадия проекта': projectStage.value || '—',
+      'Комментарий': comment.value.trim() || '—',
+      'Согласие на обработку данных': consent.checked ? 'да' : 'нет',
+    });
+    if (sent) redirectToThankYou('contact');
   }
 }
 

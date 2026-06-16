@@ -51,7 +51,7 @@ jobs:
           if [ "$FULL_SYNC" = "1" ]; then
             MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/"
           else
-            MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/ -X assets/reviews/partner-review.mp4 -X assets/presentation/franchise.pdf -X assets/presentation/consulting.pdf -X assets/hero/hero-loop.mp4"
+            MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/ -X assets/reviews/partner-review.mp4 -X assets/presentation/consulting.pdf -X assets/hero/hero-loop.mp4"
           fi
 
           echo "========== Phase 1: HTML + spasibo + JS =========="
@@ -76,6 +76,9 @@ jobs:
           put -O assets/ qmagic.js
           put -O assets/ fb-thank-you.js
           put -O assets/ fb-pixel-config.js
+          lcd ..
+          mkdir -f api
+          put -O api/ api/lead.php
           quit
           LFTP1
             then break
@@ -113,7 +116,7 @@ jobs:
           fi
           REMOTE_BYTES=$(wc -c < "$PROBE" | tr -d ' ')
           echo "Remote index.html: ${REMOTE_BYTES} bytes (local ${LOCAL_BYTES})"
-          if [[ "$REMOTE_BYTES" -lt 169000 ]]; then
+          if [[ "$REMOTE_BYTES" -lt 168000 ]]; then
             echo "::error::Remote index.html too small; check FTP_REMOTE_DIR=volki-frn.by (FTP home /www)"
             exit 1
           fi
