@@ -66,6 +66,7 @@ jobs:
           lcd $PWD
           cd ${REMOTE}
           put -O . index.html
+          put -O . .htaccess
           put -O . presentation.html
           put -O . privacy-policy.html
           put -O . spasibo.html

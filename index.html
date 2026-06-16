@@ -3489,7 +3489,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
           </div>
           <span class="consent-error-msg fade-up" id="leadConsentErr">Необходимо согласие на обработку персональных данных</span>
           <div class="fade-up">
-            <button class="btn-primary" onclick="submitLead()" style="width:100%; justify-content:center;"><span>Скачать PDF</span></button>
+            <button class="btn-primary" onclick="submitLead().catch(function(){})" style="width:100%; justify-content:center;"><span>Скачать PDF</span></button>
           </div>
           <p class="form-micro">Отправим презентацию на email в течение минуты</p>
         </div>
@@ -3936,7 +3936,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
             <label for="cConsent">Я согласен(на) на обработку персональных данных и ознакомлен(а) с <a href="privacy-policy.html">Политикой конфиденциальности</a>.</label>
           </div>
           <span class="consent-error-msg" id="cConsentErr">Необходимо согласие на обработку персональных данных</span>
-          <button class="btn-primary" onclick="submitContact()" style="width:100%; justify-content:center;"><span>Отправить заявку</span></button>
+          <button class="btn-primary" onclick="submitContact().catch(function(){})" style="width:100%; justify-content:center;"><span>Отправить заявку</span></button>
         </div>
         <div class="form-success" id="contactSuccess">
           <div class="success-icon">✦</div>
@@ -4018,8 +4018,12 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
     site: 'volki',
     secret: 'volki_cy1-hzaPfi36HtQ2LAkfpm_7Q3AlR6w6'
   };
+  // Даже при старом кэше index — только same-origin прокси на проде
+  if (/volki-frn\.by$/i.test(location.hostname)) {
+    window.QMAGIC.apiUrl = '/api/lead.php';
+  }
 </script>
-<script src="assets/qmagic.js?v=20260616"></script>
+<script src="assets/qmagic.js?v=20260616b"></script>
 <script>
 // ===== PAGE TWEAKS =====
 (function() {

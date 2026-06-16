@@ -7,9 +7,24 @@
     return global.QMAGIC || null;
   }
 
+  function leadUrls(configured) {
+    var host = (global.location.hostname || '').toLowerCase();
+    if (host === 'volki-frn.by' || host === 'www.volki-frn.by') {
+      return ['/api/lead.php'];
+    }
+    var urls = [];
+    if (configured && configured.indexOf('/api/lead.php') !== -1) {
+      urls.push(configured);
+    } else {
+      if (configured) urls.push(configured);
+      urls.push('/api/lead.php');
+    }
+    return urls;
+  }
+
   async function submitLead(formId, formTitle, fields) {
     const c = cfg();
-    if (!c || !c.apiUrl || !c.site || !c.secret) {
+    if (!c || !c.site || !c.secret) {
       console.warn('[QMagic] Not configured');
       return { ok: false, skipped: true };
     }
@@ -25,12 +40,9 @@
       },
     };
 
-    const urls = [c.apiUrl];
-    if (c.apiUrl.indexOf('/api/lead.php') === -1) {
-      urls.push('/api/lead.php');
-    }
-
+    const urls = leadUrls(c.apiUrl);
     let lastResult = { ok: false };
+
     for (let i = 0; i < urls.length; i++) {
       const init = {
         method: 'POST',
@@ -61,7 +73,6 @@
     return lastResult;
   }
 
-  /** @deprecated use submitLead — ждёт ответ перед редиректом */
   function submitLeadBackground(formId, formTitle, fields) {
     return submitLead(formId, formTitle, fields);
   }
