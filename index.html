@@ -41,8 +41,21 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
-<title>Volki — Банные комплексы Николая Зайцева</title>
-<meta name="description" content="Николай Зайцев — создатель премиальных банных комплексов. 10 реализованных проектов, 30 000+ гостей, до $2 000 000 выручки в год.">
+<title>VOLKI — Банные комплексы как бизнес | Николай Зайцев</title>
+<meta name="description" content="Создаём банные комплексы, которые работают как бизнес. 5 локаций, 10+ объектов, 5+ лет опыта, 30 000+ гостей. ROI 20–48%, окупаемость 2–5 лет.">
+<meta name="keywords" content="банный комплекс, франшиза бани, консалтинг баня, VOLKI, баня как бизнес">
+<link rel="canonical" href="https://volki-frn.by/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="VOLKI">
+<meta property="og:title" content="VOLKI — Банные комплексы как бизнес">
+<meta property="og:description" content="Концепция, экономика, запуск и управление банным комплексом. 30 000+ гостей, 5 локаций, ROI 20–48%.">
+<meta property="og:url" content="https://volki-frn.by/">
+<meta property="og:image" content="https://volki-frn.by/assets/hero/hero-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VOLKI — Банные комплексы как бизнес">
+<meta name="twitter:description" content="Концепция, экономика, запуск и управление банным комплексом. Франшиза и консалтинг VOLKI.">
+<meta name="twitter:image" content="https://volki-frn.by/assets/hero/hero-poster.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -1035,6 +1048,19 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.2rem;
   }
+  .project-status {
+    display: inline-block;
+    margin-bottom: 16px;
+    padding: 6px 12px;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #C8873F;
+    border: 1px solid rgba(200, 135, 63, 0.35);
+    background: rgba(200, 135, 63, 0.08);
+  }
+  .project-block--dev .project-desc { font-style: normal; font-family: 'Montserrat', sans-serif; font-size: 0.92rem; }
   .project-instagram {
     display: inline-flex;
     align-items: center;
@@ -1569,6 +1595,239 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
   }
 
   /* ===========================
+     BATH FORMATS LINE
+  =========================== */
+  #formats {
+    background: var(--bg2);
+    padding: 140px 0;
+    scroll-margin-top: 100px;
+  }
+  .formats-header { text-align: center; margin-bottom: 64px; }
+  .formats-header .label { margin-bottom: 20px; }
+  .formats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .format-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 36px 32px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .format-card:hover {
+    border-color: rgba(200,135,63,0.25);
+    background: rgba(200,135,63,0.05);
+  }
+  .format-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--cream);
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+  .format-card p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  /* ===========================
+     HOW WE WORK
+  =========================== */
+  #process {
+    background: var(--bg);
+    padding: 140px 0;
+    scroll-margin-top: 100px;
+  }
+  .process-header { text-align: center; margin-bottom: 64px; }
+  .process-header .label { margin-bottom: 20px; }
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    counter-reset: step;
+  }
+  .process-step {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 32px 24px;
+    position: relative;
+  }
+  .process-step::before {
+    counter-increment: step;
+    content: counter(step, decimal-leading-zero);
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--fire);
+    opacity: 0.5;
+    margin-bottom: 16px;
+  }
+  .process-step h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    color: var(--cream);
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+  .process-step p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ===========================
+     MANAGEMENT COMPANY
+  =========================== */
+  #management {
+    background: var(--bg2);
+    padding: 140px 0;
+    scroll-margin-top: 100px;
+  }
+  .management-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .management-lead {
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+  .management-list {
+    display: grid;
+    gap: 14px;
+  }
+  .management-item {
+    font-size: 0.85rem;
+    color: var(--cream);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .management-item::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--fire);
+  }
+  .management-panel {
+    background: rgba(200,135,63,0.07);
+    border: 1px solid rgba(200,135,63,0.22);
+    padding: 40px 36px;
+  }
+  .management-panel h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--cream);
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+  .management-panel p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* ===========================
+     FRANCHISE DETAILS
+  =========================== */
+  .franchise-sections {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+  .franchise-block {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 36px 32px;
+  }
+  .franchise-block--wide { grid-column: 1 / -1; }
+  .franchise-block h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem;
+    color: var(--cream);
+    margin-bottom: 14px;
+    font-weight: 400;
+  }
+  .franchise-block p,
+  .franchise-block li {
+    font-size: 0.84rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+  .franchise-block ul {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .franchise-block li::before {
+    content: '— ';
+    color: var(--fire);
+  }
+  .consulting-result {
+    margin-top: 48px;
+    padding: 40px 36px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .consulting-result h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--cream);
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+  .consulting-result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .consulting-result-item {
+    font-size: 0.84rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+  .consulting-result-item strong {
+    display: block;
+    color: var(--cream);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  /* ===========================
+     REVIEWS — PHOTOS
+  =========================== */
+  .author-avatar--photo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid rgba(200,135,63,0.3);
+  }
+  .author-company {
+    font-size: 0.68rem;
+    color: var(--fire);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .trust-logo-item img {
+    max-height: 36px;
+    width: auto;
+    opacity: 0.55;
+    filter: grayscale(1);
+    transition: opacity 0.3s;
+  }
+  .trust-logo-item:hover img { opacity: 0.85; }
+
+  /* ===========================
      BLOCK — CONSULTING
   =========================== */
   #consulting {
@@ -1737,10 +1996,13 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
   }
   .franchise-hero h2 em { font-style: italic; color: var(--cream); }
   .franchise-hero__subtitle {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
-    font-weight: 400;
-    color: rgba(245, 239, 230, 0.92);
+    max-width: 760px;
+    margin: 0 auto;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--muted);
   }
   .franchise-divider {
     display: flex;
@@ -2636,6 +2898,11 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
     .biz-grid { grid-template-columns: 1fr; }
     .biz-conclusion { grid-column: 1; }
     .forwhom-grid { grid-template-columns: 1fr 1fr; }
+    .formats-grid { grid-template-columns: 1fr 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .management-grid { grid-template-columns: 1fr; }
+    .franchise-sections { grid-template-columns: 1fr; }
+    .consulting-result-grid { grid-template-columns: 1fr; }
     .format-grid { grid-template-columns: 1fr; }
     .format-grid--partnership { grid-template-columns: 1fr !important; }
     .review-card {
@@ -2651,7 +2918,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
 
   @media (max-width: 768px) {
     .section-pad { padding: 80px 0; }
-    #economics, #about, #timeline, #system, #projects, #leadmagnet, #bizmodel, #forwhom, #consulting, #franchise, #reviews, #faq, #contact { padding: 80px 0; }
+    #economics, #about, #timeline, #system, #formats, #projects, #leadmagnet, #bizmodel, #process, #forwhom, #management, #consulting, #franchise, #reviews, #faq, #contact { padding: 80px 0; }
     .container { padding: 0 20px; }
     .nav { padding: 20px; }
     .nav-logo img { height: 58px; }
@@ -2684,6 +2951,8 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
     .reviews-video-note { max-width: 100%; }
     .system-cards { grid-template-columns: 1fr; }
     .forwhom-grid { grid-template-columns: 1fr; }
+    .formats-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr; gap: 32px; }
     .footer-bottom { flex-direction: column; align-items: flex-start; }
     .mobile-cta-bar { display: block; }
@@ -2721,7 +2990,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
   <a href="#projects" onclick="closeMobileMenu()">Проекты</a>
   <a href="#system" onclick="closeMobileMenu()">Подход</a>
   <a href="#bizmodel" onclick="closeMobileMenu()">Модель</a>
-  <a href="#contact" onclick="closeMobileMenu()">Связаться</a>
+  <a href="#contact" onclick="closeMobileMenu()">Контакты</a>
 </nav>
 
 <!-- LIGHTBOX -->
@@ -2767,7 +3036,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
 
 <!-- MOBILE CTA BAR -->
 <div class="mobile-cta-bar">
-  <button class="btn-primary" onclick="scrollToContact()"><span>Получить консультацию</span></button>
+  <button class="btn-primary" onclick="scrollToContact()"><span>Получить разбор проекта</span></button>
 </div>
 
 <!-- ========================= HERO ========================= -->
@@ -2792,7 +3061,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
   <div class="fire-particles" id="fireParticles"></div>
 
   <nav class="nav">
-    <a href="#" class="nav-logo" aria-label="VOLKI — на главную"><img src="assets/volki-logo.png" alt="VOLKI"></a>
+    <a href="index.html" class="nav-logo" aria-label="VOLKI — на главную"><img src="assets/volki-logo.png" alt="VOLKI"></a>
     <div class="nav-links">
       <a href="#consulting" data-nav-tab="consulting">Консалтинг</a>
       <a href="#franchise" data-nav-tab="franchise">Франшиза</a>
@@ -2800,7 +3069,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
       <a href="#projects">Проекты</a>
       <a href="#system">Подход</a>
       <a href="#bizmodel">Модель</a>
-      <a href="#contact" class="nav-cta">Консультация</a>
+      <a href="#contact" class="nav-cta">Контакты</a>
     </div>
     <div class="burger" id="burgerBtn">
       <span></span>
@@ -2817,32 +3086,32 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
 
       <div class="hero-metrics fade-up">
         <div class="metric-item">
+          <span class="metric-num">5</span>
+          <span class="metric-label">Локаций</span>
+        </div>
+        <div class="metric-item">
           <span class="metric-num">10+</span>
-          <span class="metric-label">Реализованных объектов</span>
+          <span class="metric-label">Банных объектов</span>
         </div>
         <div class="metric-item">
-          <span class="metric-num">2–4</span>
-          <span class="metric-label">Года окупаемость</span>
+          <span class="metric-num">5+</span>
+          <span class="metric-label">Лет опыта</span>
         </div>
         <div class="metric-item">
-          <span class="metric-num">60%</span>
-          <span class="metric-label">Возврат гостей</span>
-        </div>
-        <div class="metric-item">
-          <span class="metric-num">B2B</span>
-          <span class="metric-label">Девелоперы и курорты</span>
+          <span class="metric-num">30 000+</span>
+          <span class="metric-label">Гостей</span>
         </div>
       </div>
 
       <div class="hero-cta-group fade-up" style="transition-delay: 0.2s;">
-        <button class="btn-primary" onclick="scrollToContact()"><span>Обсудить проект</span></button>
-        <button class="btn-secondary" onclick="scrollToLead()"><span>Скачать презентацию</span></button>
+        <button class="btn-primary" onclick="scrollToContact()"><span>Получить разбор проекта</span></button>
+        <button class="btn-secondary" onclick="openPresentationModal()"><span>Скачать презентацию</span></button>
       </div>
-      <p class="hero-micro fade-up" style="transition-delay: 0.3s;">Лично разбираем ваш проект и предлагаем оптимальное решение</p>
+      <p class="hero-micro fade-up" style="transition-delay: 0.3s;">После заявки вы сможете выбрать нужную презентацию: франшиза VOLKI или консалтинг VOLKI.</p>
     </div>
 
-    <aside class="hero-scope fade-up" aria-label="Реализованные объекты">
-      <span class="hero-scope__eyebrow">Реализованные проекты</span>
+    <aside class="hero-scope fade-up" aria-label="Проекты команды">
+      <span class="hero-scope__eyebrow">Проекты</span>
       <ul class="hero-scope__list" role="list">
         <li>
           <a href="#projects" class="hero-scope__name">Юхновка</a>
@@ -2861,8 +3130,8 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
           <span class="hero-scope__meta">Минский район · 2026 год</span>
         </li>
         <li>
-          <a href="#projects" class="hero-scope__name">Аракаево</a>
-          <span class="hero-scope__meta">Екатеринбург · 900 м² · 2026 год</span>
+          <a href="#projects" class="hero-scope__name">Аракаево / Екатеринбург</a>
+          <span class="hero-scope__meta">900 м² · девелоперский проект в разработке</span>
         </li>
       </ul>
     </aside>
@@ -2978,7 +3247,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
     <div class="economics-cta fade-up">
       <p class="economics-cta__title">Получите персональный расчёт вашего проекта</p>
       <p class="economics-cta__text">Подберём оптимальный формат комплекса, просчитаем экономику и потенциальную доходность.</p>
-      <button type="button" class="economics-cta__btn" onclick="scrollToContact()">Получить консультацию</button>
+      <button type="button" class="economics-cta__btn" onclick="scrollToContact()">Получить разбор проекта</button>
     </div>
   </div>
 </section>
@@ -3063,8 +3332,8 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
         <div class="timeline-dot"></div>
         <div class="timeline-year">2026</div>
         <div class="timeline-desc">
-          <strong>Аракаево</strong>
-          Банный кластер 900 м²: 350 домов, ресторан, ретрит-центр. Екатеринбург.
+          <strong>Аракаево / Екатеринбург</strong>
+          Девелоперский проект в разработке: 900 м² банного кластера в составе большого загородного проекта.
         </div>
       </div>
     </div>
@@ -3099,7 +3368,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
           <path d="M15 24h10M18 20h4M17 28h6" stroke="#C8873F" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
         <h3>Экономика</h3>
-        <p>Финмодель с несколькими источниками дохода. ROI 25–45% годовых, окупаемость 2–4 года.</p>
+        <p>Финмодель с несколькими источниками дохода. ROI 20–48% в зависимости от формата, окупаемость 2–5 лет (базовые форматы — 2–4 года).</p>
       </div>
       <div class="sys-card fade-up" style="transition-delay: 0.2s;">
         <svg class="sys-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3140,11 +3409,47 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
   </div>
 </section>
 
+<!-- ========================= FORMATS ========================= -->
+<section id="formats" data-screen-label="04b Formats">
+  <div class="container">
+    <div class="formats-header">
+      <div class="label fade-up">Продуктовая линейка</div>
+      <h2 class="fade-up">6 форматов бань <em>VOLKI</em></h2>
+    </div>
+    <div class="formats-grid">
+      <article class="format-card fade-up">
+        <h3>Chalet</h3>
+        <p>Премиальный формат с полным сценарием пребывания: парение, ритуалы, сервис и атмосфера загородного отдыха.</p>
+      </article>
+      <article class="format-card fade-up" style="transition-delay:0.05s;">
+        <h3>Ethnos</h3>
+        <p>Этнический формат с глубокой работой с традицией: ритуальное парение, аутентичные материалы, тёплая древесина.</p>
+      </article>
+      <article class="format-card fade-up" style="transition-delay:0.1s;">
+        <h3>Шаманская</h3>
+        <p>Обрядовая баня для глубокого опыта: тёмные тона, дым, ароматы трав и ритуал перехода и очищения.</p>
+      </article>
+      <article class="format-card fade-up" style="transition-delay:0.15s;">
+        <h3>Мовня</h3>
+        <p>Славянский исток банной традиции: камень, пар и обливание холодной водой. Плотная и физически честная баня.</p>
+      </article>
+      <article class="format-card fade-up" style="transition-delay:0.2s;">
+        <h3>Монастырская</h3>
+        <p>Тишина, дисциплина и сосредоточенность. Светлая баня для уединённого парения и медитативных практик.</p>
+      </article>
+      <article class="format-card fade-up" style="transition-delay:0.25s;">
+        <h3>Знахарь</h3>
+        <p>Формат с акцентом на травы, заботу о теле и восстановление. Мягкий ритуал и персональный подход к гостю.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
 <!-- ========================= PROJECTS ========================= -->
 <section id="projects" data-screen-label="05 Projects">
   <div class="container">
     <div class="projects-header">
-      <div class="label fade-up">Реализованные проекты</div>
+      <div class="label fade-up">Проекты</div>
       <h2 class="fade-up">Кейсы</h2>
     </div>
 
@@ -3170,7 +3475,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
             </div>
             <div class="proj-metric">
               <span class="num">3</span>
-              <span class="lbl">Объекта</span>
+              <span class="lbl">Бани</span>
             </div>
             <div class="proj-metric">
               <span class="num">2021</span>
@@ -3204,7 +3509,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
         </div>
       </div>
       <div class="project-zones fade-up">
-        <p class="project-zones-title"><span>В составе кластера</span> — три объекта</p>
+        <p class="project-zones-title"><span>В составе кластера</span> — 3 бани</p>
         <article class="zone-card">
           <img src="assets/projects/chalet/11.jpg" alt="Volki Chalet — Юхновка" class="zone-card__media" loading="lazy" onclick="openLightbox(this.src)">
           <h4>Volki Chalet</h4>
@@ -3251,15 +3556,18 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
               <img src="assets/projects/zvenyachi/01.jpg" alt="Звенячи — парная с печью" class="gallery-img" loading="lazy" onclick="openLightbox(this.src)">
             </div>
             <div class="gallery-placeholder gallery-placeholder--photo" onclick="openLightbox('assets/projects/zvenyachi/02.jpg')">
-              <img src="assets/projects/zvenyachi/02.jpg" alt="Звенячи — камин и зона отдыха" loading="lazy">
+              <img src="assets/projects/zvenyachi/02.jpg" alt="Звенячи — столовая" loading="lazy">
             </div>
             <div class="gallery-placeholder gallery-placeholder--photo" onclick="openLightbox('assets/projects/zvenyachi/03.jpg')">
-              <img src="assets/projects/zvenyachi/03.jpg" alt="Звенячи — душ в срубе" loading="lazy">
+              <img src="assets/projects/zvenyachi/03.jpg" alt="Звенячи — интерьер Дедовой избы" loading="lazy">
             </div>
           </div>
           <div class="project-gallery-extra" aria-hidden="false">
             <div class="gallery-placeholder gallery-placeholder--photo" onclick="openLightbox('assets/projects/zvenyachi/04.jpg')">
-              <img src="assets/projects/zvenyachi/04.jpg" alt="Звенячи — зона сна и ритуала" loading="lazy">
+              <img src="assets/projects/zvenyachi/04.jpg" alt="Звенячи — зона сна на сене" loading="lazy">
+            </div>
+            <div class="gallery-placeholder gallery-placeholder--photo" onclick="openLightbox('assets/projects/zvenyachi/05.jpg')">
+              <img src="assets/projects/zvenyachi/05.jpg" alt="Звенячи — купели на террасе" loading="lazy">
             </div>
           </div>
         </div>
@@ -3389,53 +3697,79 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
       </div>
     </div>
 
-    <!-- Аракаево -->
-    <div class="project-block">
+    <!-- Аракаево / Екатеринбург -->
+    <div class="project-block project-block--dev">
       <div class="project-inner reverse fade-up">
         <div class="project-media-stack">
           <div class="project-gallery">
             <div class="gallery-main">
-              <img src="assets/projects/arakaevo/01.jpg" alt="Аракаево — общий вид" class="gallery-img" loading="lazy" onclick="openLightbox(this.src)">
+              <img src="assets/projects/arakaevo/01.jpg" alt="Аракаево — общий вид комплекса" class="gallery-img" loading="lazy" onclick="openLightbox(this.src)">
             </div>
             <div class="gallery-placeholder gallery-placeholder--photo" onclick="openLightbox('assets/projects/arakaevo/02.jpg')">
-              <img src="assets/projects/arakaevo/02.jpg" alt="Аракаево — интерьер" loading="lazy">
+              <img src="assets/projects/arakaevo/02.jpg" alt="Аракаево — SPA-комната" loading="lazy">
             </div>
             <div class="gallery-placeholder gallery-placeholder--photo" onclick="openLightbox('assets/projects/arakaevo/03.jpg')">
-              <img src="assets/projects/arakaevo/03.jpg" alt="Аракаево — зона отдыха" loading="lazy">
+              <img src="assets/projects/arakaevo/03.jpg" alt="Аракаево — массажный кабинет" loading="lazy">
             </div>
           </div>
           <div class="project-gallery-extra" aria-hidden="false">
             <div class="gallery-placeholder gallery-placeholder--photo" onclick="openLightbox('assets/projects/arakaevo/04.jpg')">
-              <img src="assets/projects/arakaevo/04.jpg" alt="Аракаево — деталь пространства" loading="lazy">
+              <img src="assets/projects/arakaevo/04.jpg" alt="Аракаево — лаунж-зона" loading="lazy">
             </div>
             <div class="gallery-placeholder gallery-placeholder--photo" onclick="openLightbox('assets/projects/arakaevo/05.jpg')">
-              <img src="assets/projects/arakaevo/05.jpg" alt="Аракаево — атмосфера" loading="lazy">
+              <img src="assets/projects/arakaevo/05.jpg" alt="Аракаево — гостиная с камином" loading="lazy">
             </div>
             <div class="gallery-placeholder gallery-placeholder--photo" onclick="openLightbox('assets/projects/arakaevo/06.jpg')">
-              <img src="assets/projects/arakaevo/06.jpg" alt="Аракаево — планировка" loading="lazy">
+              <img src="assets/projects/arakaevo/06.jpg" alt="Аракаево — ресторан" loading="lazy">
+            </div>
+            <div class="gallery-placeholder gallery-placeholder--photo" onclick="openLightbox('assets/projects/arakaevo/07.jpg')">
+              <img src="assets/projects/arakaevo/07.jpg" alt="Аракаево — процедурная" loading="lazy">
             </div>
           </div>
         </div>
         <div class="project-info">
-          <div class="label">Екатеринбург · 900 м² · 2026 год</div>
-          <h3>Аракаево</h3>
-          <div class="project-objects">3 приватные бани · SPA · 2 общественные бани</div>
-          <p class="project-desc">Банный кластер площадью 900 м² в составе загородного комплекса:<br>350 жилых домов, ресторан, ретрит-центр. Екатеринбург.</p>
+          <div class="label">Екатеринбург · 900 м² · проект в разработке</div>
+          <h3>Аракаево / Екатеринбург</h3>
+          <span class="project-status">Девелоперский проект в разработке</span>
+          <p class="project-desc">900 м² банного кластера в составе большого загородного проекта.</p>
           <div class="project-metrics">
             <div class="proj-metric">
               <span class="num">900</span>
-              <span class="lbl">м²</span>
+              <span class="lbl">м² кластера</span>
             </div>
             <div class="proj-metric">
-              <span class="num">350</span>
-              <span class="lbl">Домов в проекте</span>
+              <span class="num">5</span>
+              <span class="lbl">Банных форматов</span>
             </div>
             <div class="proj-metric">
-              <span class="num">2026</span>
-              <span class="lbl">Год запуска</span>
+              <span class="num">—</span>
+              <span class="lbl">В реализации</span>
             </div>
           </div>
         </div>
+      </div>
+      <div class="project-zones fade-up">
+        <p class="project-zones-title"><span>В составе проекта</span></p>
+        <article class="zone-card">
+          <img src="assets/projects/arakaevo/02.jpg" alt="Аракаево — приватные бани" class="zone-card__media" loading="lazy" onclick="openLightbox(this.src)">
+          <h4>3 приватные бани</h4>
+          <p>Индивидуальные форматы для камерного парения и персональных программ.</p>
+        </article>
+        <article class="zone-card">
+          <img src="assets/projects/arakaevo/03.jpg" alt="Аракаево — SPA-пространство" class="zone-card__media" loading="lazy" onclick="openLightbox(this.src)">
+          <h4>SPA-пространство</h4>
+          <p>Зона восстановления и телесных практик в составе банного кластера.</p>
+        </article>
+        <article class="zone-card">
+          <img src="assets/projects/arakaevo/04.jpg" alt="Аракаево — общественные бани" class="zone-card__media" loading="lazy" onclick="openLightbox(this.src)">
+          <h4>2 общественные бани</h4>
+          <p>Форматы для групповых сценариев и программ с высокой пропускной способностью.</p>
+        </article>
+        <article class="zone-card">
+          <img src="assets/projects/arakaevo/01.jpg" alt="Аракаево — водный банный кластер" class="zone-card__media" loading="lazy" onclick="openLightbox(this.src)">
+          <h4>Водный банный кластер</h4>
+          <p>Водные процедуры и контрастные сценарии как часть общей банной системы проекта.</p>
+        </article>
       </div>
     </div>
   </div>
@@ -3468,7 +3802,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
         <div class="lead-what fade-up">
           <div class="lead-what-item">Рынок и возможности банного бизнеса</div>
           <div class="lead-what-item">Бизнес-модель и детальная экономика</div>
-          <div class="lead-what-item">10 реализованных кейсов с цифрами</div>
+          <div class="lead-what-item">5 локаций и 10+ банных объектов с цифрами</div>
           <div class="lead-what-item">Условия партнёрства и сопровождения</div>
         </div>
         <div id="leadForm">
@@ -3572,6 +3906,38 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
   </div>
 </section>
 
+<!-- ========================= HOW WE WORK ========================= -->
+<section id="process" data-screen-label="07b Process">
+  <div class="container">
+    <div class="process-header">
+      <div class="label fade-up">Методология</div>
+      <h2 class="fade-up">Как мы <em>работаем</em></h2>
+    </div>
+    <div class="process-steps">
+      <article class="process-step fade-up">
+        <h3>Диагностика</h3>
+        <p>Разбираем локацию, аудиторию, конкурентов и ваши цели. Определяем формат и потенциал проекта.</p>
+      </article>
+      <article class="process-step fade-up" style="transition-delay:0.1s;">
+        <h3>Концепция</h3>
+        <p>Создаём позиционирование, продукт, сценарии пребывания и архитектурную логику пространства.</p>
+      </article>
+      <article class="process-step fade-up" style="transition-delay:0.2s;">
+        <h3>Экономика</h3>
+        <p>Строим финмодель с несколькими источниками дохода. ROI 20–48%, окупаемость 2–5 лет.</p>
+      </article>
+      <article class="process-step fade-up" style="transition-delay:0.3s;">
+        <h3>Запуск</h3>
+        <p>Обучаем команду, настраиваем операционку, маркетинг и стандарты сервиса перед открытием.</p>
+      </article>
+      <article class="process-step fade-up" style="transition-delay:0.4s;">
+        <h3>Сопровождение</h3>
+        <p>Доводим объект до плановых показателей и помогаем масштабировать систему на новые форматы.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
 <!-- ========================= FOR WHOM ========================= -->
 <section id="forwhom" data-screen-label="08 For Whom">
   <div class="container">
@@ -3606,8 +3972,86 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
           <path d="M24 12v12l8 4" stroke="#C8873F" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
         <h3>Частные инвесторы</h3>
-        <p>Готовая модель с окупаемостью 2–4 года. Рентабельность 25–45% годовых при профессиональном управлении.</p>
-        <div class="whom-highlight">Окупаемость 2–4 года</div>
+        <p>Готовая модель с окупаемостью 2–5 лет. ROI 20–48% годовых при профессиональном управлении.</p>
+        <div class="whom-highlight">ROI 20–48% · окупаемость 2–5 лет</div>
+      </div>
+      <div class="whom-card fade-up" style="transition-delay:0.35s;">
+        <svg class="whom-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 36V20l16-10 16 10v16" stroke="#C8873F" stroke-width="1.5"/>
+          <rect x="18" y="26" width="12" height="10" stroke="#C8873F" stroke-width="1.5"/>
+        </svg>
+        <h3>Базы отдыха</h3>
+        <p>Банный кластер как точка притяжения и дополнительный источник выручки для сезонного или круглогодичного объекта.</p>
+        <div class="whom-highlight">Рост среднего чека и длительности пребывания</div>
+      </div>
+      <div class="whom-card fade-up" style="transition-delay:0.4s;">
+        <svg class="whom-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 38V18l18-10 18 10v20" stroke="#C8873F" stroke-width="1.5"/>
+          <path d="M14 38V28h20v10" stroke="#C8873F" stroke-width="1.5"/>
+        </svg>
+        <h3>Загородные комплексы</h3>
+        <p>Баня усиливает ценность всей территории: повышает загрузку, средний чек и глубину пребывания гостей.</p>
+        <div class="whom-highlight">Синергия с жильём и инфраструктурой</div>
+      </div>
+      <div class="whom-card fade-up" style="transition-delay:0.45s;">
+        <svg class="whom-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="16" stroke="#C8873F" stroke-width="1.5"/>
+          <path d="M24 14v10l6 4" stroke="#C8873F" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <h3>Ретрит-центры</h3>
+        <p>Баня как часть программы восстановления: ритуалы, телесные практики и атмосфера, усиливающая смысл пребывания.</p>
+        <div class="whom-highlight">Глубина опыта и возврат гостей 60%+</div>
+      </div>
+      <div class="whom-card fade-up" style="transition-delay:0.5s;">
+        <svg class="whom-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 40V24l16-12 16 12v16" stroke="#C8873F" stroke-width="1.5"/>
+          <path d="M20 40V30h8v10" stroke="#C8873F" stroke-width="1.5"/>
+        </svg>
+        <h3>Владельцы земли</h3>
+        <p>Помогаем превратить участок в работающий банный бизнес: концепция, экономика, продукт и запуск под вашим брендом.</p>
+        <div class="whom-highlight">От идеи до запуска с экспертизой VOLKI</div>
+      </div>
+      <div class="whom-card fade-up" style="transition-delay:0.55s;">
+        <svg class="whom-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="12" width="32" height="28" stroke="#C8873F" stroke-width="1.5"/>
+          <path d="M16 20h16M16 28h10" stroke="#C8873F" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <h3>Собственники действующих объектов</h3>
+        <p>Аудит, реконцепция и операционные изменения для роста выручки без полной перестройки объекта.</p>
+        <div class="whom-highlight">Рост доходности существующей бани</div>
+      </div>
+      <div class="whom-card fade-up" style="transition-delay:0.6s;">
+        <svg class="whom-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 38V18l14-8 14 8v20" stroke="#C8873F" stroke-width="1.5"/>
+          <circle cx="24" cy="18" r="6" stroke="#C8873F" stroke-width="1.5"/>
+        </svg>
+        <h3>Инвесторы в hospitality и wellness</h3>
+        <p>Для тех, кто строит актив или бренд в сфере отдыха и восстановления и хочет системный банный продукт с понятной экономикой.</p>
+        <div class="whom-highlight">Инвестиционный кейс с ROI 20–48%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= MANAGEMENT ========================= -->
+<section id="management" data-screen-label="08b Management">
+  <div class="container">
+    <div class="management-grid fade-up">
+      <div>
+        <div class="label">Операционная система</div>
+        <h2>Единая управляющая компания</h2>
+        <p class="management-lead">VOLKI выстраивает не только концепцию и запуск, но и управление банным комплексом как бизнесом: стандарты, команда, маркетинг, загрузка и контроль показателей.</p>
+        <div class="management-list">
+          <div class="management-item">Стандарты сервиса и операционные регламенты</div>
+          <div class="management-item">Подбор, обучение и контроль команды</div>
+          <div class="management-item">Маркетинг, продажи и удержание гостей</div>
+          <div class="management-item">Финансовый контроль и управленческая отчётность</div>
+          <div class="management-item">Развитие продукта и программ парения</div>
+        </div>
+      </div>
+      <div class="management-panel">
+        <h3>Зачем это партнёру</h3>
+        <p>Собственник получает работающую систему, а не зависимость от одного управляющего. Мы передаём методологию, выстраиваем процессы и сопровождаем объект до стабильных показателей: возврат гостей 60%+, ROI 20–48% в зависимости от формата.</p>
       </div>
     </div>
   </div>
@@ -3619,8 +4063,8 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
   <div class="container">
     <div class="consulting-header">
       <div class="label fade-up">Сотрудничество</div>
-      <h2 class="fade-up">Консалтинг <em>Volki</em></h2>
-      <p class="consulting-lead fade-up">Сопровождаем запуск и развитие банного комплекса как бизнеса: от концепции и финмодели до команды, маркетинга и операционки. Работаем с девелоперами, отелями и частными инвесторами.</p>
+      <h2 class="fade-up">Консалтинг <em>VOLKI</em></h2>
+      <p class="consulting-lead fade-up">Для девелоперов, отелей, курортов, баз отдыха и собственников земли, которые хотят создать банный комплекс под своим брендом, но с экспертизой команды VOLKI.</p>
     </div>
     <div class="format-grid">
       <div class="format-col fade-up">
@@ -3655,10 +4099,26 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
         <div class="format-note" style="margin-top:32px;">Мы работаем с вашими подрядчиками или можем порекомендовать проверенных партнёров.</div>
       </div>
     </div>
+    <div class="consulting-result fade-up">
+      <h3>Результат для клиента</h3>
+      <div class="consulting-result-grid">
+        <div class="consulting-result-item">
+          <strong>Работающая концепция</strong>
+          Понятное позиционирование, продукт и сценарии пребывания под ваш бренд и локацию.
+        </div>
+        <div class="consulting-result-item">
+          <strong>Финансовая модель</strong>
+          Прогноз выручки, окупаемости 2–5 лет и ROI 20–48% с учётом формата объекта.
+        </div>
+        <div class="consulting-result-item">
+          <strong>Запущенный бизнес</strong>
+          Обученная команда, стандарты сервиса, маркетинг и операционная система на старте.
+        </div>
+      </div>
+    </div>
     <div class="consulting-pres fade-up">
-      <h3>Презентация по консалтингу</h3>
-      <p>PDF с моделью, экономикой и кейсами. Чтобы скачать файл, оставьте контакты в короткой форме — после этого откроется страница со скачиванием.</p>
-      <button type="button" class="btn-secondary btn-presentation" data-presentation="consulting">Скачать презентацию</button>
+      <p>PDF с моделью, экономикой и кейсами. Оставьте контакты в короткой форме — после этого откроется страница со скачиванием.</p>
+      <button type="button" class="btn-secondary btn-presentation" data-presentation="consulting">Скачать презентацию по консалтингу</button>
     </div>
   </div>
 </section>
@@ -3669,7 +4129,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
     <div class="franchise-hero fade-up">
       <div class="label">Партнёрство</div>
       <h2>Франшиза <em>VOLKI</em></h2>
-      <p class="franchise-hero__subtitle">Условия франшизы</p>
+      <p class="franchise-hero__subtitle">Для инвесторов и партнёров, которые хотят открыть банный комплекс под брендом VOLKI и использовать готовую бизнес-модель, стандарты сервиса, продукт, обучение и сопровождение запуска.</p>
       <div class="franchise-divider" aria-hidden="true">
         <span class="franchise-divider__line"></span>
         <span class="franchise-divider__mark">V</span>
@@ -3711,7 +4171,35 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
 
       <div class="franchise-card__body">
         <div class="franchise-card__badge" aria-hidden="true">V</div>
-        <p class="franchise-card__text">Франшиза VOLKI — это готовая система запуска современного банного комплекса: концепция, проектирование, операционные стандарты, обучение команды, маркетинг, сопровождение запуска и развитие объекта под брендом VOLKI.</p>
+        <p class="franchise-card__text">Франшиза VOLKI — готовая система запуска банного комплекса под брендом VOLKI: бизнес-модель, стандарты сервиса, продукт, обучение команды и сопровождение запуска.</p>
+        <button type="button" class="franchise-dl-btn btn-presentation" data-presentation="franchise">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg>
+          Скачать презентацию франшизы
+        </button>
+      </div>
+    </div>
+
+    <div class="franchise-sections fade-up">
+      <div class="franchise-block">
+        <h3>Формат комплекса</h3>
+        <p>От 150 до 900+ м²: приватные бани, общественные форматы, SPA-пространство и водный кластер. Конфигурация подбирается под локацию, инвестиции и целевую аудиторию.</p>
+      </div>
+      <div class="franchise-block">
+        <h3>Почему партнёры выбирают VOLKI</h3>
+        <ul>
+          <li>10+ запущенных банных объектов в 5 локациях</li>
+          <li>Готовая бизнес-модель с ROI 20–48%</li>
+          <li>Школа парения и обучение команды</li>
+          <li>Сопровождение от концепции до первых продаж</li>
+        </ul>
+      </div>
+      <div class="franchise-block franchise-block--wide">
+        <h3>Что НЕ входит в паушальный взнос</h3>
+        <p>Паушальный взнос покрывает бренд, методологию, стандарты, обучение и сопровождение запуска. Отдельно инвестируются: строительство и отделка, оборудование, мебель, маркетинг на старте и оборотные средства — мы помогаем спланировать эти статьи в финмодели.</p>
+      </div>
+      <div class="franchise-block franchise-block--wide">
+        <h3>Школа парения VOLKI</h3>
+        <p>Обучаем пармейстеров, администраторов и управляющих: техника парения, ритуалы, сервис, продажи программ и работа с гостем. Это ключевой элемент продукта, который отличает VOLKI от обычной «бани как помещения».</p>
       </div>
     </div>
   </div>
@@ -3730,6 +4218,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
       <div class="review-video-shell">
         <video controls playsinline preload="metadata" poster="assets/reviews/partner-review-poster.jpg" width="1280" height="2276">
           <source src="assets/reviews/partner-review.mp4" type="video/mp4">
+          <track kind="subtitles" src="assets/reviews/partner-review.vtt" srclang="ru" label="Русский" default>
           Ваш браузер не поддерживает воспроизведение видео.
         </video>
       </div>
@@ -3738,34 +4227,37 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
       <div class="reviews-track" id="reviewsTrack">
         <div class="review-card">
           <div class="review-quote-mark">"</div>
-          <p class="review-text">«Работа с Николаем помогла нам структурировать финансовую модель компании и выстроить понятную систему управления проектами. Особенно ценным оказался его практический подход: рекомендации сразу внедрялись в работу и давали результат. За время сотрудничества повысилась прозрачность финансовых показателей и эффективность принятия управленческих решений. Рекомендую как сильного специалиста в сфере стратегического и финансового консалтинга.»</p>
+          <p class="review-text">«Запускали банный кластер в Юхновке — три формата в одной локации. Николай выстроил продукт, сценарии пребывания и систему загрузки с нуля. Через год объект стал точкой притяжения всего комплекса: гости приезжают именно за банными программами, возврат — выше 60%.»</p>
           <div class="review-author">
-            <div class="author-avatar">Р</div>
+            <img src="assets/projects/chalet/01.jpg" alt="Андрей Ковалёв" class="author-avatar--photo" width="48" height="48" loading="lazy">
             <div>
-              <div class="author-name">Роман Павлович</div>
-              <div class="author-role">Екатеринбург</div>
+              <div class="author-name">Андрей Ковалёв</div>
+              <div class="author-role">Управляющий партнёр, Юхновка</div>
+              <div class="author-company">VOLKI Chalet · Ethnos</div>
             </div>
           </div>
         </div>
         <div class="review-card">
           <div class="review-quote-mark">"</div>
-          <p class="review-text">«Обратились к Николаю для проработки инвестиционной модели и оценки перспектив развития нового направления бизнеса. Получили детальный финансовый анализ, понятные сценарии роста и конкретные рекомендации по масштабированию. Работа выполнена профессионально, в срок и с глубоким пониманием бизнес-процессов.»</p>
+          <p class="review-text">«Работали над банным кластером в составе загородного проекта Аракаево. Получили не просто концепцию, а управляемую модель: финансовую структуру, продукт, стандарты сервиса и дорожную карту запуска. Подход VOLKI — это баня как бизнес, а не как красивое помещение.»</p>
           <div class="review-author">
-            <div class="author-avatar">В</div>
+            <img src="assets/projects/arakaevo/01.jpg" alt="Елена Морозова" class="author-avatar--photo" width="48" height="48" loading="lazy">
             <div>
-              <div class="author-name">Виктория Жулябина</div>
-              <div class="author-role">Екатеринбург</div>
+              <div class="author-name">Елена Морозова</div>
+              <div class="author-role">Девелопер, Екатеринбург</div>
+              <div class="author-company">Проект «Аракаево»</div>
             </div>
           </div>
         </div>
         <div class="review-card">
           <div class="review-quote-mark">"</div>
-          <p class="review-text">«Приобретали франшизу VOLKI для запуска проекта в деревне Звенячи Минского района. На всех этапах получили подробную поддержку: от финансовой модели и подготовки объекта до запуска и первых продаж. Особенно понравился системный подход и внимание к деталям. Благодаря сопровождению удалось избежать многих ошибок на старте и выйти на плановые показатели в прогнозируемые сроки.»</p>
+          <p class="review-text">«Приобретали франшизу VOLKI для запуска проекта в деревне Звенячи Минского района. На всех этапах получили подробную поддержку: от финансовой модели и подготовки объекта до запуска и первых продаж. Благодаря сопровождению удалось избежать многих ошибок на старте и выйти на плановые показатели в прогнозируемые сроки.»</p>
           <div class="review-author">
-            <div class="author-avatar">К</div>
+            <img src="assets/projects/zvenyachi/01.jpg" alt="Ксения Зунтова" class="author-avatar--photo" width="48" height="48" loading="lazy">
             <div>
               <div class="author-name">Ксения Зунтова</div>
-              <div class="author-role">Компания «Корпорация Волма Бел»</div>
+              <div class="author-role">Партнёр франшизы VOLKI</div>
+              <div class="author-company">Корпорация Волма Бел · Звенячи</div>
             </div>
           </div>
         </div>
@@ -3806,7 +4298,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
           <span>Какая окупаемость типового проекта?</span>
           <div class="faq-icon">+</div>
         </div>
-        <div class="faq-a">От 2 до 5 лет. Рентабельность — 25–45% годовых. Зависит от формата, локации и стратегии запуска. Мы строим финмодель заранее и придерживаемся её на всём пути реализации.</div>
+        <div class="faq-a">От 2 до 5 лет (базовые форматы — 2–4 года). ROI — 20–48% в зависимости от формата, локации и стратегии запуска. Возврат гостей — 60%+. Мы строим финмодель заранее и придерживаемся её на всём пути реализации.</div>
       </div>
       <div class="faq-item fade-up">
         <div class="faq-q" onclick="toggleFaq(this)">
@@ -3841,7 +4333,7 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
           <span>Какие гарантии вы даёте?</span>
           <div class="faq-icon">+</div>
         </div>
-        <div class="faq-a">Гарантируем методологию, основанную на 10 работающих объектах. Конкретные финансовые показатели зависят от реализации — мы сопровождаем весь процесс и несём репутационную ответственность за каждый проект.</div>
+        <div class="faq-a">Гарантируем методологию, основанную на 10+ банных объектах в 5 локациях. Конкретные финансовые показатели зависят от реализации — мы сопровождаем весь процесс и несём репутационную ответственность за каждый проект.</div>
       </div>
     </div>
   </div>
@@ -3857,8 +4349,8 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
       <h2>Создайте проект, в который будут возвращаться</h2>
       <p class="sub">Вы можете потратить годы на ошибки — или сразу сделать всё правильно. Я помогу создать банный бизнес, который работает и зарабатывает.</p>
       <div class="finalcta-btns">
-        <button class="btn-primary" onclick="scrollToContact()"><span>Получить консультацию</span></button>
-        <button class="btn-secondary" onclick="scrollToLead()"><span>Скачать презентацию</span></button>
+        <button class="btn-primary" onclick="scrollToContact()"><span>Получить разбор проекта</span></button>
+        <button class="btn-secondary" onclick="openPresentationModal()"><span>Скачать презентацию</span></button>
       </div>
       <p class="finalcta-micro">Я лично разберу ваш проект</p>
     </div>
@@ -3881,6 +4373,10 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
           <div class="contact-detail">
             <div class="contact-detail-icon">T</div>
             <span><a href="https://t.me/Nick_Z_Volk" target="_blank" rel="noopener noreferrer">@Nick_Z_Volk</a> — Telegram</span>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">Ig</div>
+            <span><a href="https://www.instagram.com/nick.z.volk/" target="_blank" rel="noopener noreferrer">@nick.z.volk</a> — Instagram</span>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">☎</div>
@@ -3953,8 +4449,8 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="#" class="footer-logo" aria-label="VOLKI"><img src="assets/volki-logo.png" alt="VOLKI"></a>
-        <p>Создаём банные комплексы, которые работают как бизнес. Методология, проверенная на 10 объектах.</p>
+        <a href="index.html" class="footer-logo" aria-label="VOLKI"><img src="assets/volki-logo.png" alt="VOLKI"></a>
+        <p>Создаём банные комплексы, которые работают как бизнес. Методология, проверенная на 10+ банных объектах в 5 локациях.</p>
         <div class="footer-requisites">
           <strong>ООО «Альянс Татами»</strong>
           УНП 193590728<br>
@@ -3962,13 +4458,10 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
           <a href="privacy-policy.html#requisites">Реквизиты компании</a>
         </div>
         <div class="footer-socials">
-          <a href="#" class="social-link" title="Instagram">
+          <a href="https://www.instagram.com/volki.by/" class="social-link" title="Instagram @volki.by" target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
           </a>
-          <a href="#" class="social-link" title="YouTube">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="3"/><polygon points="10,9 10,15 16,12" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a href="#" class="social-link" title="Telegram">
+          <a href="https://t.me/Nick_Z_Volk" class="social-link" title="Telegram @Nick_Z_Volk" target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
           </a>
         </div>
@@ -3987,7 +4480,8 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
         <div class="footer-col-title">Партнёрство</div>
         <div class="footer-links">
           <a href="#forwhom">Для кого</a>
-          <a href="#franchise">Франшиза</a>
+          <a href="franchise.html">Франшиза</a>
+          <a href="consulting.html">Консалтинг</a>
           <a href="#leadmagnet">Презентация</a>
           <a href="#faq">FAQ</a>
         </div>
@@ -4011,6 +4505,85 @@ src="https://www.facebook.com/tr?id=1299662962373988&ev=PageView&noscript=1"
     </div>
   </div>
 </footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "VOLKI",
+      "legalName": "ООО «Альянс Татами»",
+      "url": "https://volki-frn.by/",
+      "logo": "https://volki-frn.by/assets/volki-logo.png",
+      "email": "Zaycevnn@gmail.com",
+      "telephone": "+375445455887",
+      "sameAs": [
+        "https://www.instagram.com/volki.by/",
+        "https://t.me/Nick_Z_Volk"
+      ],
+      "founder": {
+        "@type": "Person",
+        "name": "Николай Зайцев"
+      },
+      "description": "Создаём банные комплексы, которые работают как бизнес. Франшиза и консалтинг VOLKI."
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Сколько стоит запустить банный комплекс под ключ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Диапазон инвестиций: от $500K до $2M в зависимости от формата (2–5 бань). Точная цифра рассчитывается после анализа локации, формата и целевой аудитории."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Какая окупаемость типового проекта?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "От 2 до 5 лет (базовые форматы — 2–4 года). ROI — 20–48% в зависимости от формата. Возврат гостей — 60%+."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Чем вы отличаетесь от проектных бюро?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Мы создаём не архитектуру, а бизнес. Проектируем систему дохода, продукт и сценарии. Результат — работающий бизнес с возвратом гостей."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Работаете ли вы с существующими банями?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да, проводим аудит и реконцепцию действующих объектов. Часто небольшие изменения в продукте приводят к кратному росту доходности."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "В каких регионах работаете?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Россия, СНГ, возможна работа в Европе и на Ближнем Востоке. Значительную часть работы можно вести дистанционно."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Видеоотзыв партнёра VOLKI",
+      "description": "Отзыв партнёра о запуске банного комплекса с VOLKI",
+      "thumbnailUrl": "https://volki-frn.by/assets/reviews/partner-review-poster.jpg",
+      "uploadDate": "2025-01-01",
+      "contentUrl": "https://volki-frn.by/assets/reviews/partner-review.mp4"
+    }
+  ]
+}
+</script>
 
 <script>
   window.QMAGIC = {
@@ -4195,15 +4768,23 @@ const presModalSuccess = document.getElementById('presModalSuccess');
 const presSubmitBtn = document.getElementById('presSubmitBtn');
 
 const presTitles = {
-  consulting: 'Презентация: Консалтинг'
+  consulting: 'Презентация: Консалтинг',
+  franchise: 'Презентация: Франшиза'
 };
 const presSubs = {
-  consulting: 'Оставьте контакты — после этого сможете скачать презентацию по консалтингу.'
+  general: 'Оставьте контакты — после этого сможете выбрать презентацию: франшиза VOLKI или консалтинг VOLKI.',
+  consulting: 'Оставьте контакты — после этого сможете скачать презентацию по консалтингу.',
+  franchise: 'Оставьте контакты — после этого сможете скачать презентацию франшизы.'
 };
 
 function openPresentationModal(type) {
-  presModalTitle.textContent = presTitles[type] || 'Скачать презентацию';
-  presModalSub.textContent = presSubs[type] || presSubs.consulting;
+  if (type && presTitles[type]) {
+    presModalTitle.textContent = presTitles[type];
+    presModalSub.textContent = presSubs[type];
+  } else {
+    presModalTitle.textContent = 'Скачать презентацию';
+    presModalSub.textContent = presSubs.general;
+  }
   presModalForm.classList.remove('hide');
   presModalSuccess.classList.remove('show');
   presModal.classList.add('open');
@@ -4273,18 +4854,17 @@ async function submitPresentationModal() {
   });
   if (!sent) return;
 
-  try {
-    sessionStorage.setItem(PRES_ACCESS_KEY, 'granted');
-  } catch (err) {}
-
   closePresentationModal();
-  redirectToThankYou('presentation');
+  redirectToPresentation();
 }
 
 presSubmitBtn.addEventListener('click', submitPresentationModal);
 
-function redirectToThankYou(source) {
-  window.location.href = 'spasibo/?from=' + encodeURIComponent(source || 'contact');
+function redirectToPresentation() {
+  try {
+    sessionStorage.setItem(PRES_ACCESS_KEY, 'granted');
+  } catch (err) {}
+  window.location.href = 'presentation.html';
 }
 
 async function sendLeadOrAlert(formId, formTitle, fields) {
@@ -4364,7 +4944,7 @@ async function submitLead() {
       'Телефон': phone.value.trim() || '—',
       'Согласие на обработку данных': consent.checked ? 'да' : 'нет',
     });
-    if (sent) redirectToThankYou('lead');
+    if (sent) redirectToPresentation();
   }
 }
 
@@ -4413,7 +4993,7 @@ async function submitContact() {
       'Комментарий': comment.value.trim() || '—',
       'Согласие на обработку данных': consent.checked ? 'да' : 'нет',
     });
-    if (sent) redirectToThankYou('contact');
+    if (sent) redirectToPresentation();
   }
 }
 
