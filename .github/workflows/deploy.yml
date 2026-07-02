@@ -51,7 +51,7 @@ jobs:
           if [ "$FULL_SYNC" = "1" ]; then
             MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/"
           else
-            MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/ -X assets/reviews/partner-review.mp4 -X assets/presentation/consulting.pdf -X assets/hero/hero-loop.mp4"
+            MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/ -X assets/reviews/partner-review.mp4 -X assets/presentation/consulting.pdf"
           fi
 
           echo "========== Phase 1: HTML + spasibo + JS =========="
@@ -77,6 +77,9 @@ jobs:
           put -O assets/ qmagic.js
           put -O assets/ fb-thank-you.js
           put -O assets/ fb-pixel-config.js
+          mkdir -f assets/hero
+          put -O assets/hero/ assets/hero/hero-loop.mp4
+          put -O assets/hero/ assets/hero/hero-poster.jpg
           lcd ..
           mkdir -f api
           put -O api/ api/lead.php
