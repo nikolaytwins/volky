@@ -72,17 +72,17 @@ jobs:
           put -O . spasibo.html
           mkdir -f spasibo
           put -O spasibo/ spasibo/index.html
+          mkdir -f assets/presentation
+          put -O assets/presentation/ assets/presentation/consulting.pdf
+          put -O assets/presentation/ assets/presentation/franchise.pdf
+          mkdir -f assets/hero
+          put -O assets/hero/ assets/hero/hero-loop.mp4
+          put -O assets/hero/ assets/hero/hero-poster.jpg
           mkdir -f assets
           lcd assets
           put -O assets/ qmagic.js
           put -O assets/ fb-thank-you.js
           put -O assets/ fb-pixel-config.js
-          mkdir -f assets/hero
-          put -O assets/hero/ assets/hero/hero-loop.mp4
-          put -O assets/hero/ assets/hero/hero-poster.jpg
-          mkdir -f assets/presentation
-          put -O assets/presentation/ assets/presentation/consulting.pdf
-          put -O assets/presentation/ assets/presentation/franchise.pdf
           lcd ..
           mkdir -f api
           put -O api/ api/lead.php
