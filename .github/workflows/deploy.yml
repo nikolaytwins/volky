@@ -51,7 +51,7 @@ jobs:
           if [ "$FULL_SYNC" = "1" ]; then
             MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/"
           else
-            MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/ -X assets/reviews/partner-review.mp4 -X assets/presentation/consulting.pdf"
+            MIRROR_EXCLUDES="-X .git/ -X .github/ -X .env -X .env.* -X .env.example -X DEPLOY.md -X UPLOAD-MANIFEST.txt -X deploy.sh -X .gitignore -X assets/analytics-head.html -X index.html -X presentation.html -X privacy-policy.html -X spasibo.html -X spasibo/ -X assets/reviews/partner-review.mp4"
           fi
 
           echo "========== Phase 1: HTML + spasibo + JS =========="
@@ -80,6 +80,9 @@ jobs:
           mkdir -f assets/hero
           put -O assets/hero/ assets/hero/hero-loop.mp4
           put -O assets/hero/ assets/hero/hero-poster.jpg
+          mkdir -f assets/presentation
+          put -O assets/presentation/ assets/presentation/consulting.pdf
+          put -O assets/presentation/ assets/presentation/franchise.pdf
           lcd ..
           mkdir -f api
           put -O api/ api/lead.php
@@ -128,6 +131,24 @@ jobs:
             echo "::error::Remote index.html missing expected content"
             exit 1
           fi
+          for PDF in assets/presentation/consulting.pdf assets/presentation/franchise.pdf; do
+            REMOTE_PDF="/tmp/remote-$(basename "$PDF")"
+            lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_SERVER}" <<LFTP3
+          set ftp:passive-mode true
+          set ftp:ssl-allow false
+          set cmd:fail-exit true
+          cd ${REMOTE}
+          get ${PDF} -o ${REMOTE_PDF}
+          quit
+          LFTP3
+            LOCAL_PDF_BYTES=$(wc -c < "$PDF" | tr -d ' ')
+            REMOTE_PDF_BYTES=$(wc -c < "$REMOTE_PDF" | tr -d ' ')
+            echo "${PDF}: local ${LOCAL_PDF_BYTES} / remote ${REMOTE_PDF_BYTES}"
+            if [[ "$REMOTE_PDF_BYTES" -ne "$LOCAL_PDF_BYTES" ]]; then
+              echo "::error::${PDF} size mismatch on FTP"
+              exit 1
+            fi
+          done
           echo "FTP verify OK"
 
       - name: Verify live site
