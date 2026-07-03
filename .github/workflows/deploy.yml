@@ -156,16 +156,18 @@ jobs:
           set -euo pipefail
           BASE="https://volki-frn.by"
           UA="Mozilla/5.0 (compatible; VolkiDeployCheck/1.0)"
+          MARKER='A-frame дом и две бани'
           for i in 1 2 3 4 5 6; do
             echo "HTTP check ${i}/6 ..."
             BODY=$(curl -sL --max-time 30 -A "${UA}" -H "Accept: text/html" "${BASE}/index.html" || true)
-            if echo "$BODY" | grep -qF 'A-frame дом и две бани'; then
-              curl -sIL --max-time 30 -A "${UA}" "${BASE}/spasibo/" | grep -qi '200 OK' || {
-                echo "::error::/spasibo/ not found"
-                exit 1
-              }
-              echo "Live site OK"
-              exit 0
+            if grep -qF "${MARKER}" <<< "${BODY}"; then
+              SPASIBO_HEADERS=$(curl -sIL --max-time 30 -A "${UA}" "${BASE}/spasibo/" || true)
+              if grep -qi '200 OK' <<< "${SPASIBO_HEADERS}"; then
+                echo "Live site OK"
+                exit 0
+              fi
+              echo "::error::/spasibo/ not found"
+              exit 1
             fi
             sleep 10
           done
