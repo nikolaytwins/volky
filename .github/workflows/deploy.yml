@@ -162,7 +162,7 @@ jobs:
             BODY=$(curl -sL --max-time 30 -A "${UA}" -H "Accept: text/html" "${BASE}/index.html" || true)
             if grep -qF "${MARKER}" <<< "${BODY}"; then
               SPASIBO_HEADERS=$(curl -sIL --max-time 30 -A "${UA}" "${BASE}/spasibo/" || true)
-              if grep -qi '200 OK' <<< "${SPASIBO_HEADERS}"; then
+              if grep -qE 'HTTP/[0-9.]+ 200' <<< "${SPASIBO_HEADERS}"; then
                 echo "Live site OK"
                 exit 0
               fi
